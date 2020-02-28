@@ -13,8 +13,11 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json()); // allows us to parse json
 
+// Loading the routing files
+require("./routes/index.route")(app);
+
 // DB Connection
-const uri = process.env.MONGO_URI;
+const uri = process.env.MONGO_URI; // Connection URI(String)
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true,
