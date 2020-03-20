@@ -5,7 +5,6 @@ const Schema = mongoose.Schema;
 const courseSchema = new Schema( // creating new schema
   {
     // Properties with validations
-    courseid: { type: Number, trim: true, minlength: 3, required: true },
     coursename: { type: String, trim: true, minlength: 3, required: true },
     coursestatus: { type: Boolean, required: true, default: true },
     teacherid: { type: Number, trim: true, minlength: 3, required: true } //reference id of the users in User table
