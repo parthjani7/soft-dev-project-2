@@ -8,7 +8,7 @@ const assignmentSchema = new Schema( // creating new schema
     name: { type: String, trim: true, minlength: 3, required: true },
     status: { type: Boolean, required: true, default: true },
     description: { type: String, trim: true, required: true },
-    due: { type: String, required: true, default: false },
+    due: { type: Date, required: true, default: false },
     course: {
       type: Schema.Types.ObjectId,
       ref: "Course",
