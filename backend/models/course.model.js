@@ -5,9 +5,12 @@ const Schema = mongoose.Schema;
 const courseSchema = new Schema( // creating new schema
   {
     // Properties with validations
-    coursename: { type: String, trim: true, minlength: 3, required: true },
-    coursestatus: { type: Boolean, required: true, default: true },
-    teacherid: { type: Number, trim: true, minlength: 3, required: true } //reference id of the users in User table
+    name: { type: String, trim: true, minlength: 3, required: true },
+    status: { type: Boolean, required: true, default: true },
+    assigned_to: {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    }
   },
   {
     timestamps: true // automatically manages timestamp, when created the record

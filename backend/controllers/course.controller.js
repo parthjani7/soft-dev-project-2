@@ -7,14 +7,14 @@ exports.index = function(req, res) {
 };
 
 exports.store = function(req, res) {
-  const coursename = req.body.coursename;
-  const coursestatus = req.body.coursestatus;
-  const teacherid = req.body.teacherid;
+  const name = req.body.name;
+  const status = req.body.status;
+  const assigned_to = req.body.assigned_to;
 
   const course = new Course({
-    coursename,
-    coursestatus,
-    teacherid
+    name,
+    status,
+    assigned_to
   });
   course
     .save()
@@ -31,9 +31,9 @@ exports.show = function(req, res) {
 exports.update = function(req, res) {
   Course.findById(req.params.id)
     .then(course => {
-      course.coursename = req.body.coursename || course.coursename;
-      course.coursestatus = req.body.coursestatus || course.coursestatus;
-      course.teacherid = req.body.teacherid || course.teacherid;
+      course.name = req.body.name || course.name;
+      course.status = req.body.status || course.status;
+      course.assigned_to = req.body.assigned_to || course.assigned_to;
       course
         .save()
         .then(() => res.json([course, "Course updated"]))
