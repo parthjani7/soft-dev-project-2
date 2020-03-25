@@ -9,6 +9,7 @@
     "acorn": "^7.1.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "create-react-app": "^3.4.1",
     "minimist": "^1.2.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

@@ -10,6 +10,10 @@ const courseSchema = new Schema( // creating new schema
     assigned_to: {
       type: Schema.Types.ObjectId,
       ref: "User"
+    },
+    assignments:{
+      type: Schema.Types.ObjectId,
+      ref: "Assignment"
     }
   },
   {
