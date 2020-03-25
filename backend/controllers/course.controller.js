@@ -9,6 +9,7 @@ exports.index = function(req, res) {
 exports.store = function(req, res) {
   const payload = {
     name: req.body.name,
+    code: req.body.code,
     status: req.body.status,
     assigned_to: req.body.assigned_to
   };
@@ -30,6 +31,7 @@ exports.update = function(req, res) {
   Course.findById(req.params.id)
     .then(course => {
       course.name = req.body.name || course.name;
+      course.code = req.body.code || course.code;
       course.status = req.body.status || course.status;
       course.assigned_to = req.body.assigned_to || course.assigned_to;
       course

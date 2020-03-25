@@ -7,11 +7,12 @@ const courseSchema = new Schema( // creating new schema
     // Properties with validations
     name: { type: String, trim: true, minlength: 3, required: true },
     status: { type: Boolean, required: true, default: true },
+    code: { type: String, required: true },
     assigned_to: {
       type: Schema.Types.ObjectId,
       ref: "User"
     },
-    assignments:{
+    assignments: {
       type: Schema.Types.ObjectId,
       ref: "Assignment"
     }
