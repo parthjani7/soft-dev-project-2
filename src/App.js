@@ -1,66 +1,40 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import React, { Suspense, lazy } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { Component } from "react";
+import {BrowserRouter as Router, Route, Switch, Link, Redirect} from "react-router-dom"
 
-const Home = lazy(() => import("./components/home"));
-const Login = lazy(() => import("./components/login"));
-const Signup = lazy(() => import("./components/signup"));
-const Navbar = lazy(() => import("./components/partials/navbar"));
-// import "./App.css";
+import SignIn from "./components/general/SigninPage";
 
-function App() {
-  return (
-    <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
-          Navbar
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+import StudentHomePage from "./components/general/StudentHomePage";
+import TeacherHomePage from "./components/general/TeacherHomePage";
+import GuardianHomePage from "./components/general/GuardianHomePage";
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/home">
-                Home <span class="sr-only">(current)</span>
-              </a>
-            </li>
-          </ul>
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="/login">
-                Login
-              </a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="/signup">
-                Signup
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <Router>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Switch>
-            <Route exact path="/home" component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
-            {/* <Route path="/about" component={About}/> */}
-          </Switch>
-        </Suspense>
-      </Router>
-    </div>
-  );
+// import CreateCourse from "./api/CourseController";
+
+// import Register from "./api/RegisterController";
+// import RegisterCourses from "./components/RegisterCourse";
+// import NotFoundPage from "./pages/NotFoundPage";
+
+class App extends Component{
+  render(){
+    return <Router>
+      <Switch>
+          <Route exact path="/signin" component={SignIn}/>
+          
+          <Route exact path="/homestudent" component={StudentHomePage}/> 
+          <Route exact path="/hometeacher" component={TeacherHomePage}/> 
+          <Route exact path="/homeguardian" component={GuardianHomePage}/> 
+
+          <Route exact path="/" component={SignIn}/>
+
+          {/* <Route exact path="/register" component={Register}/>*/}
+
+          {/* <Route exact path="/createcourse" component={CreateCourse}/>
+
+
+          <Route exact path="/register-courses" component={RegisterCourses}/>
+          <Route exact path="/404" component={NotFoundPage}/> */}
+      </Switch>
+    </Router>
+  }
 }
 
 export default App;

@@ -1,4 +1,5 @@
 let User = require("../models/user.model");
+const session = require('express-session');
 
 exports.index = function(req, res) {
   User.find()
@@ -59,3 +60,22 @@ exports.destroy = function(req, res) {
     .then(() => res.json("user deleted"))
     .catch(err => res.status(400).json("Error => " + err));
 };
+
+
+//other functions
+
+exports.signinfailure = function (req, res, next) {
+  return res.status(401).send("Unauthorized");
+};
+
+exports.signinsuccess = function (req, res, next) {
+   return res.status(200).json({
+       email: session.user.email,
+       firstname: session.user.firstname,
+       lastname:session.user.lastname,
+       type:session.user.type,
+       isValid: true,
+       isAuthorized: true
+   });
+};
+

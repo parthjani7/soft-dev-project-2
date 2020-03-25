@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const passport = require('passport');
 
 // Loads .env file
 require("dotenv").config();
@@ -12,17 +13,24 @@ const port = process.env.PORT || 5000;
 // Middlewares
 app.use(cors());
 app.use(express.json()); // allows us to parse json
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
 
 // Loading the routing files
 require("./routes/index.route")(app);
 
 // DB Connection
 const uri = process.env.MONGO_URI; // Connection URI(String)
-mongoose.connect(uri, {
+  mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
 });
+
+require('./models/user.model');
+require('./models/course.model');
+require('./models/assignment.model');
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB connection established successfully.");

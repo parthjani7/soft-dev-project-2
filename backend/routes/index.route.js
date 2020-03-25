@@ -2,6 +2,7 @@ module.exports = function(app) {
   var user = require("../controllers/user.controller");
   var course = require("../controllers/course.controller");
   var assignment = require("../controllers/assignment.controller");
+  const passport = require('passport');
 
   // Users
   app.get("/users/", user.index);
@@ -24,4 +25,16 @@ module.exports = function(app) {
   app.get("/assignments/:id",assignment.show);                              //Read
   app.put("/assignments/:id",assignment.update);                            //Update
   app.delete("/assignments/:id",assignment.destroy);                        //Delete
+
+  //Other routes
+  //Sign in related
+  app.route('/signin')
+        .post(passport.authenticate('local',{
+            successRedirect: "/signin-success",
+            failureRedirect: "/signin-failure",
+            failureFlash: false
+        }));
+  
+  app.route('/signin-success').get(user.signinsuccess);
+  app.route('/signin-failure').get(user.signinfailure);
 };
