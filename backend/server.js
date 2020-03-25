@@ -1,5 +1,6 @@
-const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
+const express = require("express");
 const mongoose = require("mongoose");
 const passport = require('passport');
 
@@ -16,6 +17,12 @@ app.use(express.json()); // allows us to parse json
 app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
+
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev")); // Used for logging
+} else if (process.env.NODE_ENV === "production") {
+  app.use(compression()); // used for compression, when deployed
+}
 
 // Loading the routing files
 require("./routes/index.route")(app);

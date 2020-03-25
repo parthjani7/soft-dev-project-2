@@ -7,15 +7,13 @@ exports.index = function(req, res) {
 };
 
 exports.store = function(req, res) {
-  const name = req.body.name;
-  const status = req.body.status;
-  const assigned_to = req.body.assigned_to;
+  const payload = {
+    name: req.body.name,
+    status: req.body.status,
+    assigned_to: req.body.assigned_to
+  };
 
-  const course = new Course({
-    name,
-    status,
-    assigned_to
-  });
+  const course = new Course(payload);
   course
     .save()
     .then(() => res.json("Course added"))

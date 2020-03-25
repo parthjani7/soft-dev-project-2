@@ -1,33 +1,10 @@
 let User = require("../models/user.model");
 const session = require('express-session');
+const bcrypt = require('bcryptjs');
 
 exports.index = function(req, res) {
   User.find()
     .then(users => res.json(users))
-    .catch(err => res.status(400).json("Error => " + err));
-};
-
-exports.store = function(req, res) {
-  const firstname = req.body.firstname;
-  const lastname = req.body.lastname;
-  const username = req.body.username;
-  const email = req.body.email;
-  const password = req.body.password;
-  const type = req.body.type;
-  const status = req.body.status;
-
-  const user = new User({
-    firstname,
-    lastname,
-    username,
-    email,
-    password,
-    type,
-    status
-  });
-  user
-    .save()
-    .then(() => res.json("User added"))
     .catch(err => res.status(400).json("Error => " + err));
 };
 
@@ -44,13 +21,21 @@ exports.update = function(req, res) {
       user.lastname = req.body.lastname || user.lastname;
       user.username = req.body.username || user.username;
       user.email = req.body.email || user.email;
-      user.password = req.body.password || user.password;
       user.type = req.body.type || user.type;
       user.status = req.body.status || user.status;
-      user
-        .save()
-        .then(() => res.json([user, "User updated"]))
-        .catch(err => res.status(400).json("Error => " + err));
+
+      // if (req.body.password) {
+      //   bcrypt.genSalt(10, (err, salt) => {
+      //     bcrypt.hash(req.body.password, salt, (err, hash) => {
+      //       if (err) throw err;
+            user.password = req.body.password;
+            user
+              .save()
+              .then(() => res.status(200))
+              .catch(err => res.status(400).json(err));
+        //   });
+        // });
+      //}
     })
     .catch(err => res.status(400).json("Error => " + err));
 };
