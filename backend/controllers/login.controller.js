@@ -39,24 +39,26 @@ exports.check = function(req, res) {
 
       bcrypt.compare(password, user.password).then(isMatch => {
         if (!isMatch) return res.status(400);
-
+        // return new Promise((resolve, reject) => {
         jwt.sign(
           {
             id: user.id,
-            name: user.username
+            username: user.username
           },
           secretKey,
           {
             algorithm: "HS256",
-            jwtExpirySeconds
+            expiresIn: jwtExpirySeconds
           },
           (err, token) => {
+            if (err) return res.status(400).json(err);
             res.status(200).json({
               username: user.username,
               token: `Bearer ${token}`
             });
           }
         );
+        // });
       });
     })
     .catch(err => res.status(400).json("Error => " + err));
