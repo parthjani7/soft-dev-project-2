@@ -12,7 +12,7 @@ exports.store = function(req, res) {
     status: req.body.status,
     description: req.body.description,
     due: req.body.due,
-    course: req.params.courseid
+    course: req.params.id
   };
 
   const assignment = new Assignment(payload);
@@ -51,7 +51,7 @@ exports.destroy = function(req, res) {
 };
 
 exports.findWithCourse = function(req, res) {
-  Assignment.find({ course: req.params.courseid })
+  Assignment.find({ course: req.params.id })
     .then(assignments => res.json(assignments))
     .catch(err => res.status(400).json(err));
 };
