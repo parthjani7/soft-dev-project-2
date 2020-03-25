@@ -1,6 +1,8 @@
-const express = require("express");
 const cors = require("cors");
+const morgan = require("morgan");
+const express = require("express");
 const mongoose = require("mongoose");
+const compression = require("compression");
 
 // Loads .env file
 require("dotenv").config();
@@ -12,6 +14,12 @@ const port = process.env.PORT || 5000;
 // Middlewares
 app.use(cors());
 app.use(express.json()); // allows us to parse json
+
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev")); // Used for logging
+} else if (process.env.NODE_ENV === "production") {
+  app.use(compression()); // used for compression, when deployed
+}
 
 // Loading the routing files
 require("./routes/index.route")(app);
