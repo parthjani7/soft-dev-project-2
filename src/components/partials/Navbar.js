@@ -15,9 +15,12 @@ const GuardianHome = lazy(() => import("../pages/Guardian/Home"));
 const AdminHome = lazy(() => import("../pages/Admin/Home"));
 const AdminCourse = lazy(() => import("../pages/Admin/Courses/Course"));
 const AdminCourseShow = lazy(() => import("../pages/Admin/Courses/Show"));
+const AdminUsers = lazy(() => import("../pages/Admin/Users/User"));
+const AdminAddUsers = lazy(() => import("../pages/Admin/Users/Add"));
+const AdminEditUser = lazy(() => import("../pages/Admin/Users/Edit"));
 const Login = lazy(() => import("../pages/Login"));
 const Logout = lazy(() => import("../pages/Logout"));
-const Signup = lazy(() => import("../pages/Signup"));
+const Signup = lazy(() => import("../pages/Admin/Users/Add"));
 
 export default class Navbar extends React.Component {
   render() {
@@ -67,6 +70,16 @@ export default class Navbar extends React.Component {
                 </a>
               </li>
 
+              {user_type === "admin" ? (
+                <li className="nav-item active">
+                  <a className="nav-link" href="/users">
+                    Users
+                  </a>
+                </li>
+              ) : (
+                ""
+              )}
+
               {token && (
                 <li className="nav-item active">
                   <a className="nav-link" href="/logout">
@@ -101,6 +114,19 @@ export default class Navbar extends React.Component {
                     exact
                     path="/courses/:id"
                     component={AdminCourseShow}
+                  />
+                )}
+                {user_type === "admin" && (
+                  <Route exact path="/users" component={AdminUsers} />
+                )}
+                {user_type === "admin" && (
+                  <Route exact path="/users/add" component={AdminAddUsers} />
+                )}
+                {user_type === "admin" && (
+                  <Route
+                    exact
+                    path="/users/:id/edit"
+                    component={AdminEditUser}
                   />
                 )}
                 <Route exact path="/">

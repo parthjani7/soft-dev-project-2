@@ -2,14 +2,20 @@ let User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 
 exports.index = function(req, res) {
-  User.find()
-    .then(users => res.json(users))
+  const type = req.query.type;
+  var filter = {};
+  if (type) filter = { type };
+
+  User.find(filter)
+    .select("-password")
+    .then(users => res.status(200).json(users))
     .catch(err => res.status(400).json("Error => " + err));
 };
 
 exports.show = function(req, res) {
   User.findById(req.params.id)
-    .then(user => res.json(user))
+    .select("-password")
+    .then(user => res.status(200).json(user))
     .catch(err => res.status(400).json("Error => " + err));
 };
 
@@ -23,18 +29,23 @@ exports.update = function(req, res) {
       user.type = req.body.type || user.type;
       user.status = req.body.status || user.status;
 
-      if (req.body.password) {
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(req.body.password, salt, (err, hash) => {
-            if (err) throw err;
-            user.password = hash;
-            user
-              .save()
-              .then(() => res.status(200))
-              .catch(err => res.status(400).json(err));
-          });
-        });
+      if (!req.body.password) {
+        return user
+          .save()
+          .then(response => res.status(200).json())
+          .catch(err => res.status(400).json(err));
       }
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.body.password, salt, (err, hash) => {
+          if (err) throw err;
+          user.password = hash;
+          return user
+            .save()
+            .then(response => res.status(200).json())
+            .catch(err => res.status(400).json(err));
+        });
+      });
     })
     .catch(err => res.status(400).json("Error => " + err));
 };

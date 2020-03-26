@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerUser } from "../../actions/authActions";
+import { getUser, updateUser } from "../../../../actions/userActions";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-class Signup extends React.Component {
-  constructor() {
-    super();
+class Edit extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       firstname: "",
       lastname: "",
@@ -17,30 +17,23 @@ class Signup extends React.Component {
       password: ""
     };
   }
-  componentDidMount() {
-    // If logged in and user navigates to Register page, should redirect them to dashboard
-    if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/dashboard");
-    }
-  }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors
-      });
-    }
-  }
+
+  componentDidMount = () => {
+    const { id } = this.props.match.params;
+    this.setState({ course_id: id });
+
+    this.props.getUser(id).then(res => {
+      this.setState({ ...res.data, password: "" });
+    });
+  };
+
   onChange = e => this.setState({ [e.target.id]: e.target.value });
 
   onSubmit = e => {
     e.preventDefault();
-    const newUser = {
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-      password2: this.state.password2
-    };
-    this.props.registerUser(newUser, this.props.history);
+    this.props.updateUser(this.props.match.params.id, this.state).then(() => {
+      window.location.href = "/users";
+    });
   };
 
   render() {
@@ -48,14 +41,14 @@ class Signup extends React.Component {
       <div className="container py-5">
         <div className="row">
           <div className="col-md-8 offset-2">
-            <div class="card">
-              <div class="card-header">
-                <strong>Create a new user!</strong>
+            <div className="card">
+              <div className="card-header">
+                <strong>Edit User</strong>
               </div>
-              <div class="card-body">
-                <form>
+              <div className="card-body">
+                <form onSubmit={this.onSubmit}>
                   <div className="form-group">
-                    <label for="Firstname">Firstname</label>
+                    <label htmlFor="Firstname">Firstname</label>
                     <input
                       required
                       type="text"
@@ -63,11 +56,11 @@ class Signup extends React.Component {
                       onChange={this.onChange}
                       value={this.state.firstname}
                       placeholder="Enter your Firstname"
-                      id="Firstname"
+                      id="firstname"
                     />
                   </div>
                   <div className="form-group">
-                    <label for="Lastname">Lastname</label>
+                    <label htmlFor="Lastname">Lastname</label>
                     <input
                       required
                       type="text"
@@ -75,11 +68,11 @@ class Signup extends React.Component {
                       onChange={this.onChange}
                       value={this.state.lastname}
                       placeholder="Enter your Lastname"
-                      id="Lastname"
+                      id="lastname"
                     />
                   </div>
                   <div className="form-group">
-                    <label for="Username">Username</label>
+                    <label htmlFor="Username">Username</label>
                     <input
                       required
                       type="text"
@@ -87,11 +80,11 @@ class Signup extends React.Component {
                       onChange={this.onChange}
                       value={this.state.username}
                       placeholder="Enter your Username"
-                      id="Username"
+                      id="username"
                     />
                   </div>
                   <div className="form-group">
-                    <label for="UserType">User Type</label>
+                    <label htmlFor="UserType">User Type</label>
                     <select
                       required
                       type="text"
@@ -99,7 +92,7 @@ class Signup extends React.Component {
                       onChange={this.onChange}
                       value={this.state.type}
                       placeholder="Enter your UserType"
-                      id="UserType"
+                      id="type"
                     >
                       <option value="">Select User Type</option>
                       <option value="teacher">Teacher</option>
@@ -108,7 +101,7 @@ class Signup extends React.Component {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label for="Email">Email address</label>
+                    <label htmlFor="Email">Email address</label>
                     <input
                       required
                       type="email"
@@ -116,22 +109,21 @@ class Signup extends React.Component {
                       onChange={this.onChange}
                       value={this.state.email}
                       placeholder="Enter your e-mail address"
-                      id="Email"
+                      id="email"
                     />
                     <small id="emailHelp" className="form-text text-muted">
                       We'll never share your email with anyone else.
                     </small>
                   </div>
                   <div className="form-group">
-                    <label for="Password">Password</label>
+                    <label htmlFor="Password">Password</label>
                     <input
-                      required
                       type="password"
                       className="form-control"
                       onChange={this.onChange}
                       value={this.state.password}
                       placeholder="Enter your password"
-                      id="Password"
+                      id="password"
                     />
                   </div>
                   <button type="submit" className="btn btn-primary">
@@ -147,8 +139,9 @@ class Signup extends React.Component {
   }
 }
 
-Signup.propTypes = {
-  registerUser: PropTypes.func.isRequired,
+Edit.propTypes = {
+  getUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired
 };
@@ -158,4 +151,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })(withRouter(Signup));
+export default connect(mapStateToProps, { getUser, updateUser })(
+  withRouter(Edit)
+);

@@ -21,9 +21,9 @@ exports.signup = function(req, res) {
     bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) throw err;
       user.password = hash;
-      user
+      return user
         .save()
-        .then(() => res.status(201))
+        .then(response => res.status(201).json())
         .catch(err => res.status(400).json(err));
     });
   });

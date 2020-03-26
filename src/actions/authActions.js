@@ -2,16 +2,13 @@ import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types"; // Register User
 
-export const registerUser = (userData, history) => dispatch => {
-  axios
-    .post("/register", userData)
-    .then(res => history.push("/login")) // re-direct to login on successful register
-    .catch(err =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data
-      })
-    );
+export const registerUser = userData => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("/register", userData)
+      .then(res => resolve(res)) // re-direct to login on successful register
+      .catch(err => reject(err));
+  });
 }; // Login - get user token
 export const loginUser = userData => dispatch => {
   axios

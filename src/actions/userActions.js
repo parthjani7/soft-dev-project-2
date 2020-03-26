@@ -1,13 +1,14 @@
 import axios from "axios";
 
-export const getUsers = () => dispatch => {
+export const getUsers = (type = "") => dispatch => {
   return new Promise((resolve, reject) => {
+    const url = type === "" ? `/users` : `/users?type=${type}`;
     axios
-      .get("/users")
+      .get(`${url}`)
       .then(res => resolve(res)) // re-direct to login on successful register
       .catch(err => reject(err));
   });
-}; // Login - get user token
+};
 
 export const getUser = id => dispatch => {
   return new Promise((resolve, reject) => {
@@ -16,4 +17,22 @@ export const getUser = id => dispatch => {
       .then(res => resolve(res)) // re-direct to login on successful register
       .catch(err => reject(err));
   });
-}; // Login - get user token
+};
+
+export const updateUser = (id, body) => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`/users/${id}`, body)
+      .then(res => resolve(res)) // re-direct to login on successful register
+      .catch(err => reject(err));
+  });
+};
+
+export const deleteUser = id => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(`/users/${id}`)
+      .then(res => resolve(res)) // re-direct to login on successful register
+      .catch(err => reject(err));
+  });
+};
