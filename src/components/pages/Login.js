@@ -58,6 +58,7 @@ class Login extends React.Component {
                   <div className="form-group">
                     <label htmlFor="Email">Email address</label>
                     <input
+                      autoFocus
                       required
                       type="email"
                       onChange={this.onChangeEmail}
@@ -85,6 +86,7 @@ class Login extends React.Component {
                   </div>
                   <button
                     type="button"
+                    id="submit"
                     onClick={this.checkLogin}
                     className="btn btn-primary"
                   >

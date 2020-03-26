@@ -46,6 +46,7 @@ class User extends Component {
             <a
               className="btn btn-success float-right mb-2"
               href="/users/add?type=teacher"
+              id="add_teacher_btn"
             >
               <i className="fa fa-plus"></i> Add
             </a>
@@ -97,6 +98,7 @@ class User extends Component {
             <a
               className="btn btn-success float-right mb-2"
               href="/users/add?type=student"
+              id="add_student_btn"
             >
               <i className="fa fa-plus"></i> Add
             </a>
@@ -148,6 +150,7 @@ class User extends Component {
             <a
               className="btn btn-success float-right mb-2"
               href="/users/add?type=guardian"
+              id="add_guardian_btn"
             >
               <i className="fa fa-plus"></i> Add
             </a>

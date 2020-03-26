@@ -9,12 +9,12 @@ class Add extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: "guardian02",
-      lastname: "guardian02",
-      username: "guardian02",
+      firstname: "",
+      lastname: "",
+      username: "",
       type: this.useQuery().get("type") || "",
-      email: "guardian02@yahoo.com",
-      password: "guardian02"
+      email: "",
+      password: ""
     };
   }
 
@@ -122,7 +122,7 @@ class Add extends React.Component {
                       id="password"
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" id="submit" className="btn btn-primary">
                     Submit
                   </button>
                 </form>

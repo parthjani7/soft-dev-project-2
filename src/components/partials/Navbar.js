@@ -84,7 +84,7 @@ export default class Navbar extends React.Component {
 
               {user_type === "admin" ? (
                 <li className="nav-item active">
-                  <a className="nav-link" href="/users">
+                  <a className="nav-link" id="nav_users" href="/users">
                     Users
                   </a>
                 </li>
@@ -94,7 +94,7 @@ export default class Navbar extends React.Component {
 
               {token && (
                 <li className="nav-item active">
-                  <a className="nav-link" href="/logout">
+                  <a className="nav-link" id="nav_logout" href="/logout">
                     Logout <span className="sr-only">(current)</span>
                   </a>
                 </li>
