@@ -30,4 +30,11 @@ module.exports = function(app) {
   app.get("/assignments/:id", assignment.show); //Read
   app.put("/assignments/:id", assignment.update); //Update
   app.delete("/assignments/:id", assignment.destroy); //Delete
+
+
+  //Added by Sruthi ---- starts here
+  app.get("/courses/:courseId/:userId",course.registerUser);
+  app.delete("/courses/:courseId/:userId",course.dropCourse);
+  //app.get("/courses/classlist/:id",course.getClassList);
+  //Added by Sruthi ---- ends here
 };

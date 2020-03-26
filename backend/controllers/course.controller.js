@@ -1,4 +1,5 @@
 let Course = require("../models/course.model");
+let User = require("../models/user.model");
 
 exports.index = function(req, res) {
   Course.find()
@@ -11,7 +12,7 @@ exports.store = function(req, res) {
     name: req.body.name,
     code: req.body.code,
     status: req.body.status,
-    assigned_to: req.body.assigned_to
+    classlist: req.body.classlist
   };
 
   const course = new Course(payload);
@@ -33,7 +34,7 @@ exports.update = function(req, res) {
       course.name = req.body.name || course.name;
       course.code = req.body.code || course.code;
       course.status = req.body.status || course.status;
-      course.assigned_to = req.body.assigned_to || course.assigned_to;
+      course.classlist = req.body.classlist || course.classlist;
       course
         .save()
         .then(() => res.json([course, "Course updated"]))
@@ -47,3 +48,84 @@ exports.destroy = function(req, res) {
     .then(() => res.json("Course deleted"))
     .catch(err => res.status(400).json("Error => " + err));
 };
+
+
+//Added by Sruthi ---- starts here
+//function to register a user to course
+exports.registerUser = function(req,res) {
+
+    Course.findById(req.params.courseId)
+    .then(course => {
+      course.name = req.body.name || course.name;
+      course.code = req.body.code || course.code;
+      course.status = req.body.status || course.status;
+      course.classlist.push(req.params.userId);
+      course
+      .save()
+      .then(() => res.json("User successfully added to " + course.name))
+      .catch(err => res.status(400).json("Error => " + err));
+    })
+    .catch(err => res.status(400).json("Error => " + err));
+
+    User.findById(req.params.userId)
+    .then(user => {
+      user.firstname = req.body.firstname || user.firstname;
+      user.lastname = req.body.lastname || user.lastname;
+      user.username = req.body.username || user.username;
+      user.email = req.body.email || user.email;
+      user.type = req.body.type || user.type;
+      user.status = req.body.status || user.status;
+      user.courselist.push(req.params.courseId);
+      user
+      .save()
+      .then(() => res.json("Course successfully added to " + user.firstname))
+      .catch(err => res.status(400).json("Error => " + err));
+    })
+    .catch(err => res.status(400).json("Error => " + err));
+};
+
+
+//function to drop a course for user
+exports.dropCourse = function(req,res) {
+
+    Course.findById(req.params.courseId)
+    .then(course => {
+      course.name = req.body.name || course.name;
+      course.code = req.body.code || course.code;
+      course.status = req.body.status || course.status;
+      course.classlist.pull(req.params.userId);
+      course
+      .save()
+      .then(() => res.json(course.name + " dropped"))
+      .catch(err => res.status(400).json("Error => " + err));
+    })
+    .catch(err => res.status(400).json("Error => " + err));
+
+    User.findById(req.params.userId)
+    .then(user => {
+      user.firstname = req.body.firstname || user.firstname;
+      user.lastname = req.body.lastname || user.lastname;
+      user.username = req.body.username || user.username;
+      user.email = req.body.email || user.email;
+      user.type = req.body.type || user.type;
+      user.status = req.body.status || user.status;
+      user.courselist.pull(req.params.courseId);
+      user
+      .save()
+      .then(() => res.json("Course dropped for " + user.firstname))
+      .catch(err => res.status(400).json("Error => " + err));
+    })
+    .catch(err => res.status(400).json("Error => " + err));
+}
+
+// exports.getClassList = function(req,res) {
+
+//   Course.findById(req.params.id)
+//   .then(course => res.json(course))
+//   .catch(err => res.status(400).json("Error => " + err));
+
+// }
+//Added by Sruthi ---- starts here
+
+//Other changes by Sruthi in this file:
+//Replaced assigned_to field to classlist[]
