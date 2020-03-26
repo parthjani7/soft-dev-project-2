@@ -20,11 +20,12 @@ const Signup = lazy(() => import("../pages/Signup"));
 export default class Navbar extends React.Component {
   render() {
     const user_type = localStorage.type;
+    const token = localStorage.jwtToken;
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
           <a className="navbar-brand" href="#">
-            Navbar
+            Teacher Student Guardian Connector
           </a>
           <button
             className="navbar-toggler"
@@ -39,24 +40,28 @@ export default class Navbar extends React.Component {
           </button>
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item active">
-                <a className="nav-link" href="/home">
-                  Home <span className="sr-only">(current)</span>
-                </a>
-              </li>
-            </ul>
-            <ul className="navbar-nav">
-              <li className="nav-item active">
-                <a className="nav-link" href="/login">
-                  Login
-                </a>
-              </li>
-              <li className="nav-item active">
+            <ul className="navbar-nav ml-auto">
+              {token && (
+                <li className="nav-item active">
+                  <a className="nav-link" href="/home">
+                    Home <span className="sr-only">(current)</span>
+                  </a>
+                </li>
+              )}
+              {token == null ? (
+                <li className="nav-item active">
+                  <a className="nav-link" href="/login">
+                    Login
+                  </a>
+                </li>
+              ) : (
+                ""
+              )}
+              {/* <li className="nav-item active">
                 <a className="nav-link" href="/signup">
                   Signup
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </nav>
@@ -64,23 +69,23 @@ export default class Navbar extends React.Component {
           <Router>
             <Suspense fallback={<div>Loading...</div>}>
               <Switch>
-                {user_type === "student" && (
+                {user_type == "student" && (
                   <Route exact path="/home" component={StudentHome} />
                 )}
-                {user_type === "teacher" && (
+                {user_type == "teacher" && (
                   <Route exact path="/home" component={TeacherHome} />
                 )}
-                {user_type === "guardian" && (
+                {user_type == "guardian" && (
                   <Route exact path="/home" component={GuardianHome} />
                 )}
-                {user_type === "admin" && (
+                {user_type == "admin" && (
                   <Route exact path="/home" component={AdminHome} />
                 )}
-                <Route exact path="/(|home)/">
+                <Route exact path="/">
                   <Redirect to="/login" />
                 </Route>
 
-                <Route exact path="/(|home|login)/" component={Login} />
+                <Route exact path="/login" component={Login} />
                 <Route exact path="/signup" component={Signup} />
                 <Switch>
                   {/* <PrivateRoute exact path="/" component={Home} /> */}

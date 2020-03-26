@@ -17,7 +17,9 @@ class Login extends React.Component {
   componentDidMount() {
     // If logged in and user navigates to Login page, should redirect them to dashboard
     if (this.props.auth.isAuthenticated) {
-      this.props.history.push("/home");
+      setTimeout(() => {
+        window.location.href = "/home";
+      }, 200);
     }
   }
 
@@ -25,21 +27,9 @@ class Login extends React.Component {
 
   onChangePassword = e => this.setState({ password: e.target.value });
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.auth.isAuthenticated) {
-  //     this.props.history.push("/home"); // push user to dashboard when they login
-  //   }
-  //   if (nextProps.errors) {
-  //     this.setState({
-  //       errors: nextProps.errors
-  //     });
-  //   }
-  // }
-
   UNSAFE_componentWillReceiveProps(nextProps, prevState) {
-    console.log(nextProps.auth);
     if (nextProps.auth.isAuthenticated) {
-      this.props.history.push(`/home`); // push user to dashboard when they login
+      window.location.href = "/home"; // push user to dashboard when they login
     }
     return null;
     // if (nextProps.errors) {
