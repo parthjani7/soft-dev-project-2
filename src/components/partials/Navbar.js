@@ -39,7 +39,7 @@ export default class Navbar extends React.Component {
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="/home">
             Teacher Student Guardian Connector
           </a>
           <button
@@ -74,11 +74,13 @@ export default class Navbar extends React.Component {
                 ""
               )}
 
-              <li className="nav-item active">
-                <a className="nav-link" href="/courses">
-                  Courses
-                </a>
-              </li>
+              {token && (
+                <li className="nav-item active">
+                  <a className="nav-link" href="/courses">
+                    Courses
+                  </a>
+                </li>
+              )}
 
               {user_type === "admin" ? (
                 <li className="nav-item active">

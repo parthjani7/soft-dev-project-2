@@ -8,14 +8,18 @@ const courseSchema = new Schema( // creating new schema
     name: { type: String, trim: true, minlength: 3, required: true },
     status: { type: Boolean, required: true, default: true },
     code: { type: String, required: true },
-    assigned_to: {
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    },
-    assignments: {
-      type: Schema.Types.ObjectId,
-      ref: "Assignment"
-    }
+    classlist: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ],
+    assignments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Assignment"
+      }
+    ]
   },
   {
     timestamps: true // automatically manages timestamp, when created the record
