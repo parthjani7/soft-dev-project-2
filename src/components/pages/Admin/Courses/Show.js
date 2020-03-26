@@ -38,7 +38,7 @@ class Course extends Component {
             <ul class="list-group">
               <li class="list-group-item">
                 <a href={"/courses/" + this.state.course_id + "/users"}>
-                  Manager Users
+                  Manage Users
                 </a>
               </li>
               <li class="list-group-item">
