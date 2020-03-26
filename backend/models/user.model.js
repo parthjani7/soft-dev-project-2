@@ -22,7 +22,15 @@ const userSchema = new Schema( // creating new schema
       enum: ["teacher", "guardian", "student", "admin"],
       default: "student"
     },
-    status: { type: Boolean, required: true, default: true }
+    status: { type: Boolean, required: true, default: true },
+    //Added by Sruthi ---- starts here
+    courselist: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Course"
+      }
+    ]
+    //Added by Sruthi ---- starts here
   },
   {
     timestamps: true // automatically manages timestamp, when created the record

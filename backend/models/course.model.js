@@ -8,12 +8,14 @@ const courseSchema = new Schema( // creating new schema
     name: { type: String, trim: true, minlength: 3, required: true },
     status: { type: Boolean, required: true, default: true },
     code: { type: String, required: true },
+    //Edited by Sruthi ---- starts here
     classlist: [
       {
         type: Schema.Types.ObjectId,
         ref: "User"
       }
     ],
+    //Edited by Sruthi ---- starts here
     assignments: [
       {
         type: Schema.Types.ObjectId,
