@@ -1,13 +1,25 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from "react-router-dom";
 import React, { Suspense, lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Provider } from "react-redux";
+import store from "../../store";
+import PrivateRoute from "../private-route/PrivateRoute";
 
-const Home = lazy(() => import("../Home"));
-const Login = lazy(() => import("../Login"));
-const Signup = lazy(() => import("../signup"));
+const StudentHome = lazy(() => import("../pages/Student/Home"));
+const TeacherHome = lazy(() => import("../pages/Teacher/Home"));
+const GuardianHome = lazy(() => import("../pages/Guardian/Home"));
+const AdminHome = lazy(() => import("../pages/Admin/Home"));
+const Login = lazy(() => import("../pages/Login"));
+const Signup = lazy(() => import("../pages/Signup"));
 
 export default class Navbar extends React.Component {
   render() {
+    const user_type = localStorage.type;
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
@@ -48,17 +60,36 @@ export default class Navbar extends React.Component {
             </ul>
           </div>
         </nav>
-        <Router>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/home" component={Home} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/signup" component={Signup} />
-              {/* <Route path="/about" component={About}/> */}
-            </Switch>
-          </Suspense>
-        </Router>
+        <Provider store={store}>
+          <Router>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Switch>
+                {user_type === "student" && (
+                  <Route exact path="/home" component={StudentHome} />
+                )}
+                {user_type === "teacher" && (
+                  <Route exact path="/home" component={TeacherHome} />
+                )}
+                {user_type === "guardian" && (
+                  <Route exact path="/home" component={GuardianHome} />
+                )}
+                {user_type === "admin" && (
+                  <Route exact path="/home" component={AdminHome} />
+                )}
+                <Route exact path="/(|home)/">
+                  <Redirect to="/login" />
+                </Route>
+
+                <Route exact path="/(|home|login)/" component={Login} />
+                <Route exact path="/signup" component={Signup} />
+                <Switch>
+                  {/* <PrivateRoute exact path="/" component={Home} /> */}
+                </Switch>
+                {/* <Route path="/about" component={About}/> */}
+              </Switch>
+            </Suspense>
+          </Router>
+        </Provider>
       </div>
     );
   }

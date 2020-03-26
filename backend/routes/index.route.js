@@ -5,7 +5,7 @@ module.exports = function(app) {
   var assignment = require("../controllers/assignment.controller");
 
   // Auth
-  app.post("/users", login.signup);
+  app.post("/register", login.signup);
   app.post("/login", login.check);
 
   // Users

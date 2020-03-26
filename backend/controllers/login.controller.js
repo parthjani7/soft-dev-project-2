@@ -35,30 +35,31 @@ exports.check = function(req, res) {
 
   User.findOne({ email })
     .then(user => {
-      if (!user) return res.status(404);
+      if (!user) res.status(404);
 
       bcrypt.compare(password, user.password).then(isMatch => {
-        if (!isMatch) return res.status(400);
-        // return new Promise((resolve, reject) => {
+        if (!isMatch) return res.status(400).json();
+
+        const payload = {
+          id: user.id,
+          username: user.username
+        };
+
         jwt.sign(
-          {
-            id: user.id,
-            username: user.username
-          },
+          payload,
           secretKey,
           {
             algorithm: "HS256",
             expiresIn: jwtExpirySeconds
           },
           (err, token) => {
-            if (err) return res.status(400).json(err);
-            res.status(200).json({
+            res.json({
               username: user.username,
-              token: `Bearer ${token}`
+              type: user.type,
+              token
             });
           }
         );
-        // });
       });
     })
     .catch(err => res.status(400).json("Error => " + err));

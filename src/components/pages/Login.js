@@ -1,13 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangePassword = this.onChangePassword.bind(this);
-    this.checkLogin = this.checkLogin.bind(this);
 
     this.state = {
       email: "",
@@ -15,28 +14,45 @@ export default class Login extends React.Component {
     };
   }
 
-  onChangeEmail(e) {
-    this.setState({ email: e.target.value });
-  }
-  onChangePassword(e) {
-    this.setState({ password: e.target.value });
+  componentDidMount() {
+    // If logged in and user navigates to Login page, should redirect them to dashboard
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/home");
+    }
   }
 
-  checkLogin(e) {
+  onChangeEmail = e => this.setState({ email: e.target.value });
+
+  onChangePassword = e => this.setState({ password: e.target.value });
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.auth.isAuthenticated) {
+  //     this.props.history.push("/home"); // push user to dashboard when they login
+  //   }
+  //   if (nextProps.errors) {
+  //     this.setState({
+  //       errors: nextProps.errors
+  //     });
+  //   }
+  // }
+
+  UNSAFE_componentWillReceiveProps(nextProps, prevState) {
+    console.log(nextProps.auth);
+    if (nextProps.auth.isAuthenticated) {
+      this.props.history.push(`/home`); // push user to dashboard when they login
+    }
+    return null;
+    // if (nextProps.errors) {
+    //   return {
+    //     errors: nextProps.errors
+    //   };
+    // }
+  }
+
+  checkLogin = e => {
     e.preventDefault();
-
-    const loginObj = {
-      email: this.state.email,
-      password: this.state.password
-    };
-
-    axios
-      .post("http://localhost:3000/login", loginObj)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {});
-  }
+    this.props.loginUser(this.state);
+  };
 
   render() {
     return (
@@ -93,3 +109,14 @@ export default class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  loginUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+export default connect(mapStateToProps, { loginUser })(Login);

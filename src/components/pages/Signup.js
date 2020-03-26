@@ -1,7 +1,48 @@
-import React from "react";
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/authActions";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      firstname: "",
+      lastname: "",
+      username: "",
+      type: "",
+      email: "",
+      password: ""
+    };
+  }
+  componentDidMount() {
+    // If logged in and user navigates to Register page, should redirect them to dashboard
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/dashboard");
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      this.setState({
+        errors: nextProps.errors
+      });
+    }
+  }
+  onChange = e => this.setState({ [e.target.id]: e.target.value });
+
+  onSubmit = e => {
+    e.preventDefault();
+    const newUser = {
+      name: this.state.name,
+      email: this.state.email,
+      password: this.state.password,
+      password2: this.state.password2
+    };
+    this.props.registerUser(newUser, this.props.history);
+  };
+
   render() {
     return (
       <div className="container py-5">
@@ -19,6 +60,8 @@ export default class Signup extends React.Component {
                       required
                       type="text"
                       className="form-control"
+                      onChange={this.onChange}
+                      value={this.state.firstname}
                       placeholder="Enter your Firstname"
                       id="Firstname"
                     />
@@ -29,6 +72,8 @@ export default class Signup extends React.Component {
                       required
                       type="text"
                       className="form-control"
+                      onChange={this.onChange}
+                      value={this.state.lastname}
                       placeholder="Enter your Lastname"
                       id="Lastname"
                     />
@@ -39,6 +84,8 @@ export default class Signup extends React.Component {
                       required
                       type="text"
                       className="form-control"
+                      onChange={this.onChange}
+                      value={this.state.username}
                       placeholder="Enter your Username"
                       id="Username"
                     />
@@ -49,6 +96,8 @@ export default class Signup extends React.Component {
                       required
                       type="text"
                       className="form-control"
+                      onChange={this.onChange}
+                      value={this.state.type}
                       placeholder="Enter your UserType"
                       id="UserType"
                     >
@@ -64,6 +113,8 @@ export default class Signup extends React.Component {
                       required
                       type="email"
                       className="form-control"
+                      onChange={this.onChange}
+                      value={this.state.email}
                       placeholder="Enter your e-mail address"
                       id="Email"
                     />
@@ -77,6 +128,8 @@ export default class Signup extends React.Component {
                       required
                       type="password"
                       className="form-control"
+                      onChange={this.onChange}
+                      value={this.state.password}
                       placeholder="Enter your password"
                       id="Password"
                     />
@@ -93,3 +146,16 @@ export default class Signup extends React.Component {
     );
   }
 }
+
+Signup.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  errors: state.errors
+});
+
+export default connect(mapStateToProps, { registerUser })(withRouter(Signup));

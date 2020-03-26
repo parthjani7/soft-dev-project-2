@@ -19,7 +19,7 @@ const userSchema = new Schema( // creating new schema
     type: {
       type: String,
       required: true,
-      enum: ["teacher", "guardian", "student"],
+      enum: ["teacher", "guardian", "student", "admin"],
       default: "student"
     },
     status: { type: Boolean, required: true, default: true }
