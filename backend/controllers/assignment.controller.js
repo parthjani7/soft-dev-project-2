@@ -9,16 +9,16 @@ exports.index = function(req, res) {
 exports.store = function(req, res) {
   const payload = {
     name: req.body.name,
-    status: req.body.status,
     description: req.body.description,
-    due: req.body.due,
+    due: new Date(req.body.due),
     course: req.params.id
   };
-
+  console.log(payload);
+  // return;
   const assignment = new Assignment(payload);
   assignment
     .save()
-    .then(() => res.status(201))
+    .then(response => res.status(201).json())
     .catch(err => res.status(400).json(err));
 };
 

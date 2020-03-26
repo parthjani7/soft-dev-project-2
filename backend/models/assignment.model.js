@@ -6,9 +6,9 @@ const assignmentSchema = new Schema( // creating new schema
   {
     // Properties with validations
     name: { type: String, trim: true, minlength: 3, required: true },
-    status: { type: Boolean, required: true, default: true },
     description: { type: String, trim: true, required: true },
-    due: { type: Date, required: true, default: false },
+    due: { type: String, required: true, default: false },
+    status: { type: Boolean, required: false, default: true },
     course: {
       type: Schema.Types.ObjectId,
       ref: "User",

@@ -18,6 +18,15 @@ const AdminCourseShow = lazy(() => import("../pages/Admin/Courses/Show"));
 const AdminUsers = lazy(() => import("../pages/Admin/Users/User"));
 const AdminAddUsers = lazy(() => import("../pages/Admin/Users/Add"));
 const AdminEditUser = lazy(() => import("../pages/Admin/Users/Edit"));
+const AdminAssignments = lazy(() =>
+  import("../pages/Admin/Assignments/Assignment")
+);
+const AdminAddAssignments = lazy(() =>
+  import("../pages/Admin/Assignments/Add")
+);
+const AdminEditAssignment = lazy(() =>
+  import("../pages/Admin/Assignments/Edit")
+);
 const Login = lazy(() => import("../pages/Login"));
 const Logout = lazy(() => import("../pages/Logout"));
 const Signup = lazy(() => import("../pages/Admin/Users/Add"));
@@ -127,6 +136,27 @@ export default class Navbar extends React.Component {
                     exact
                     path="/users/:id/edit"
                     component={AdminEditUser}
+                  />
+                )}
+                {user_type === "admin" && (
+                  <Route
+                    exact
+                    path="/courses/:id/assignments"
+                    component={AdminAssignments}
+                  />
+                )}
+                {user_type === "admin" && (
+                  <Route
+                    exact
+                    path="/courses/:id/assignments/add"
+                    component={AdminAddAssignments}
+                  />
+                )}
+                {user_type === "admin" && (
+                  <Route
+                    exact
+                    path="/courses/:id/assignments/:edit"
+                    component={AdminEditAssignment}
                   />
                 )}
                 <Route exact path="/">
