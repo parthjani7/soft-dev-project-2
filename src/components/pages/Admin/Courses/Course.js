@@ -30,12 +30,25 @@ class Course extends Component {
         <div className="row">
           <div className="col s12 center-align">
             <br />
-            <h4>
-              <b>List of Courses</b>
-            </h4>
-            <br />
+            <div className="row">
+              <div className="col-md-6">
+                <h4>
+                  <b>List of Courses</b>
+                </h4>
+              </div>
+              <div className="col-md-6 text-right">
+                <a href={`/courses/add`} className="btn btn-primary">
+                  <i className="fa fa-plus"></i> Add
+                </a>
+              </div>
+            </div>
+            <hr />
             {this.state.courses.map((course, key) => (
-              <div className="card" style={{ width: "18rem" }} key={key}>
+              <div
+                className="card float-left mr-3 my-3"
+                style={{ width: "18rem" }}
+                key={key}
+              >
                 <div className="card-body">
                   <h5 className="card-title">
                     <a href={"/courses/" + course._id}> {course.name}</a>

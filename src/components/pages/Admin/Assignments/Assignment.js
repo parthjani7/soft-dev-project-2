@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getAssignments } from "../../../../actions/assignmentActions";
+import {
+  getAssignments,
+  deleteAssignment
+} from "../../../../actions/assignmentActions";
 
 class Assignment extends Component {
   constructor(props) {
@@ -13,12 +16,18 @@ class Assignment extends Component {
     };
   }
   componentDidMount = () => {
-    // const { id } = this.props.match.params;
+    const { id } = this.props.match.params;
 
-    // this.setState({ course_id: id });
+    this.setState({ course_id: id });
 
     this.props.getAssignments(this.props.match.params.id).then(res => {
       this.setState({ assignments: res.data });
+    });
+  };
+
+  onClickDelete = id => {
+    this.props.deleteAssignment(id).then(() => {
+      window.location.reload();
     });
   };
 
@@ -28,28 +37,62 @@ class Assignment extends Component {
         <div className="row">
           <div className="col s12 center-align">
             <br />
-            <h4>
-              <b>List of Assignments</b>
-            </h4>
-            <br />
-            {this.state.assignments.map((assignment, key) => (
-              <div
-                className="card float-left mr-5"
-                style={{ width: "18rem" }}
-                key={key}
-              >
-                <div className="card-body">
-                  <h5 className="card-title">
-                    <a href={"/assignments/" + assignment._id}>
-                      {assignment.name}
-                    </a>
-                  </h5>
-                  <p className="card-text">
-                    <strong>Description:</strong> {assignment.description}
-                  </p>
-                </div>
+            <div className="row">
+              <div className="col-md-6">
+                <h4>
+                  <b>List of Assignments</b>
+                </h4>
               </div>
-            ))}
+              <div className="col-md-6 text-right">
+                <a
+                  href={`/courses/${this.props.match.params.id}/assignments/add`}
+                  className="btn btn-primary"
+                >
+                  <i className="fa fa-plus"></i> Add
+                </a>
+              </div>
+            </div>
+
+            <hr />
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Due</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.assignments.map((assignment, key) => (
+                  <tr key={key}>
+                    <td>{key + 1}</td>
+                    <td>
+                      {/* <a href={"/assignments/" + assignment._id}> */}
+                      {assignment.name}
+                      {/* </a> */}
+                    </td>
+                    <td>{assignment.description}</td>
+                    <td>{new Date(assignment.due).toDateString()}</td>
+                    <td>
+                      {/* <a
+                        href={"users/" + assignment._id + "/edit"}
+                        className="btn btn-primary"
+                      >
+                        <i className="fa fa-pencil"></i>
+                      </a> */}
+                      <button
+                        onClick={() => this.onClickDelete(assignment._id)}
+                        className="btn btn-danger ml-1"
+                      >
+                        <i className="fa fa-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -58,9 +101,12 @@ class Assignment extends Component {
 }
 Assignment.propTypes = {
   getAssignments: PropTypes.func.isRequired,
+  deleteAssignment: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   auth: state.auth
 });
-export default connect(mapStateToProps, { getAssignments })(Assignment);
+export default connect(mapStateToProps, { getAssignments, deleteAssignment })(
+  Assignment
+);

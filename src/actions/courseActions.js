@@ -1,19 +1,28 @@
 import axios from "axios";
 
+export const addCourse = data => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("/courses", data)
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+};
+
 export const getCourses = () => dispatch => {
   return new Promise((resolve, reject) => {
     axios
       .get("/courses")
-      .then(res => resolve(res)) // re-direct to login on successful register
+      .then(res => resolve(res))
       .catch(err => reject(err));
   });
-}; // Login - get user token
+};
 
 export const getCourse = id => dispatch => {
   return new Promise((resolve, reject) => {
     axios
       .get(`/courses/${id}`)
-      .then(res => resolve(res)) // re-direct to login on successful register
+      .then(res => resolve(res))
       .catch(err => reject(err));
   });
-}; // Login - get user token
+};

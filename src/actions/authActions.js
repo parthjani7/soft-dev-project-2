@@ -6,10 +6,11 @@ export const registerUser = userData => dispatch => {
   return new Promise((resolve, reject) => {
     axios
       .post("/register", userData)
-      .then(res => resolve(res)) // re-direct to login on successful register
+      .then(res => resolve(res))
       .catch(err => reject(err));
   });
-}; // Login - get user token
+};
+
 export const loginUser = userData => dispatch => {
   axios
     .post("/login", userData)
