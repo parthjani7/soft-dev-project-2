@@ -8,13 +8,15 @@ import React, { Suspense, lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "../../store";
-import PrivateRoute from "../private-route/PrivateRoute";
 
 const StudentHome = lazy(() => import("../pages/Student/Home"));
 const TeacherHome = lazy(() => import("../pages/Teacher/Home"));
 const GuardianHome = lazy(() => import("../pages/Guardian/Home"));
 const AdminHome = lazy(() => import("../pages/Admin/Home"));
+const AdminCourse = lazy(() => import("../pages/Admin/Courses/Course"));
+const AdminCourseShow = lazy(() => import("../pages/Admin/Courses/Show"));
 const Login = lazy(() => import("../pages/Login"));
+const Logout = lazy(() => import("../pages/Logout"));
 const Signup = lazy(() => import("../pages/Signup"));
 
 export default class Navbar extends React.Component {
@@ -48,7 +50,8 @@ export default class Navbar extends React.Component {
                   </a>
                 </li>
               )}
-              {token == null ? (
+
+              {token === null ? (
                 <li className="nav-item active">
                   <a className="nav-link" href="/login">
                     Login
@@ -57,11 +60,20 @@ export default class Navbar extends React.Component {
               ) : (
                 ""
               )}
-              {/* <li className="nav-item active">
-                <a className="nav-link" href="/signup">
-                  Signup
+
+              <li className="nav-item active">
+                <a className="nav-link" href="/courses">
+                  Courses
                 </a>
-              </li> */}
+              </li>
+
+              {token && (
+                <li className="nav-item active">
+                  <a className="nav-link" href="/logout">
+                    Logout <span className="sr-only">(current)</span>
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </nav>
@@ -69,23 +81,34 @@ export default class Navbar extends React.Component {
           <Router>
             <Suspense fallback={<div>Loading...</div>}>
               <Switch>
-                {user_type == "student" && (
+                {user_type === "student" && (
                   <Route exact path="/home" component={StudentHome} />
                 )}
-                {user_type == "teacher" && (
+                {user_type === "teacher" && (
                   <Route exact path="/home" component={TeacherHome} />
                 )}
-                {user_type == "guardian" && (
+                {user_type === "guardian" && (
                   <Route exact path="/home" component={GuardianHome} />
                 )}
-                {user_type == "admin" && (
+                {user_type === "admin" && (
                   <Route exact path="/home" component={AdminHome} />
+                )}
+                {user_type === "admin" && (
+                  <Route exact path="/courses" component={AdminCourse} />
+                )}
+                {user_type === "admin" && (
+                  <Route
+                    exact
+                    path="/courses/:id"
+                    component={AdminCourseShow}
+                  />
                 )}
                 <Route exact path="/">
                   <Redirect to="/login" />
                 </Route>
 
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/logout" component={Logout} />
                 <Route exact path="/signup" component={Signup} />
                 <Switch>
                   {/* <PrivateRoute exact path="/" component={Home} /> */}

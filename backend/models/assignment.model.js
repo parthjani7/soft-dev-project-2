@@ -11,7 +11,7 @@ const assignmentSchema = new Schema( // creating new schema
     due: { type: Date, required: true, default: false },
     course: {
       type: Schema.Types.ObjectId,
-      ref: "Course",
+      ref: "User",
       required: "true"
     }
     // instruction_file: {                          //To be added later
