@@ -55,3 +55,12 @@ exports.destroy = function(req, res) {
     .then(() => res.json("user deleted"))
     .catch(err => res.status(400).json("Error => " + err));
 };
+
+//code added by Sruthi - starts here
+exports.showCourseList = function(req, res) {
+  User.findById(req.params.id)
+    .select("-password")
+    .then(user => res.status(200).json(user.courselist))
+    .catch(err => res.status(400).json("Error => " + err));
+};
+//ends here

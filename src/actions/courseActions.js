@@ -26,3 +26,16 @@ export const getCourse = id => dispatch => {
       .catch(err => reject(err));
   });
 };
+
+//Added by Sruthi
+
+export const getClassList = id => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+    .get(`/classlist/${id}`)
+    .then(res => resolve(res))
+    .catch(err => reject(err));
+  });
+};
+
+//Ends here
