@@ -118,6 +118,7 @@ exports.dropCourse = function(req,res) {
     .catch(err => res.status(400).json("Error => " + err));
 }
 
+//show registered users of a course aka classlist
 exports.showClassList = function(req, res) {
   Course.findById(req.params.id)
     .populate('classlist','_id firstname lastname email type')
@@ -128,14 +129,7 @@ exports.showClassList = function(req, res) {
     });
 };
 
-
-// exports.showClassList = function(req, res) {
-//   Course.findById(req.params.id)
-//     .then(course => res.json(course.classlist))
-//     .catch(err => res.status(400).json("Error => " + err));
-// };
-
-//Added by Sruthi ---- starts here
+//Added by Sruthi ---- ends here
 
 //Other changes by Sruthi in this file:
 //Replaced assigned_to field to classlist[]

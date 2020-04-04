@@ -53,7 +53,7 @@ class Classlist extends Component {
                   href={``}
                   className="btn btn-primary"
                 >
-                  <i className="fa fa-plus"></i> Add
+                  <i className="fa fa-plus"></i> Register User
                 </a>
               </div>
             </div>

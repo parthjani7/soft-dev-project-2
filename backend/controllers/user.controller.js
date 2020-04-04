@@ -63,4 +63,29 @@ exports.showCourseList = function(req, res) {
     .then(user => res.status(200).json(user.courselist))
     .catch(err => res.status(400).json("Error => " + err));
 };
+
+
+exports.isRegistered = function(req, res) {  
+  var courselist;
+  User.findById(req.params.userId) .exec(function (err, user){    
+      
+      courselist = user.courselist;
+      console.log( courselist);
+
+      console.log("Course id: " + req.params.courseId);
+      for (var i = 0; i < courselist.length; i++)
+      {
+        if(courselist[i]==req.params.courseId)
+        {
+          console.log("Registered");
+          return res.status(200).send("true");
+        }
+        else
+        {
+          console.log("Not Registered");
+          return res.status(200).send("false");
+        }
+      }
+});
+}
 //ends here

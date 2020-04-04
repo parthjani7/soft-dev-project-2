@@ -46,7 +46,7 @@ class Course extends Component {
             {this.state.courses.map((course, key) => (
               <div
                 className="card float-left mr-3 my-3"
-                style={{ width: "18rem" }}
+                style={{ width: "21rem", height: "8rem" }}
                 key={key}
               >
                 <div className="card-body">

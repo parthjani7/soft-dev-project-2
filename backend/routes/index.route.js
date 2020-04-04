@@ -38,5 +38,7 @@ module.exports = function(app) {
   
   app.get("/classlist/:id",course.showClassList);                 //view users in a course
   app.get("/courselist/:id",user.showCourseList);                 //view courses for a user
+  
+  app.get("/isregistered/:courseId/:userId",user.isRegistered);                 //view courses for a user
   //Added by Sruthi ---- ends here
 };
