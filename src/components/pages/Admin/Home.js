@@ -19,12 +19,24 @@ class Home extends Component {
     const { user } = this.props.auth;
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
-        <div className="row">
+        <div className="row" style={{paddingTop: "10%"}}>
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
           <div className="col s12 center-align">
             <h4>
               <b>Hey {user.username},</b>
             </h4>
+
+            <div class="list-group" style={{paddingLeft: "5%", paddingTop:"5%"}}>
+                <a href="/courses" class="list-group-item list-group-item-dark list-group-item-action">View all Courses</a>
+                <a href="/users" class="list-group-item list-group-item-light list-group-item-action">View all Users</a>
+                <a href="/assignments" class="list-group-item list-group-item-dark list-group-item-action">View all Assignments</a>
+                <a href="courses/add" class="list-group-item list-group-item-light list-group-item-action">Add new Course</a>
+                <a href="users/add" class="list-group-item list-group-item-dark list-group-item-action">Add new User</a>
           </div>
+          </div>
+          </div>
+          <div class="col-md-2"></div>
         </div>
       </div>
     );

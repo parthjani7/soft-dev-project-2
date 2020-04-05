@@ -33,8 +33,12 @@ module.exports = function(app) {
 
 
   //Added by Sruthi ---- starts here
-  app.get("/courses/:courseId/:userId",course.registerUser);
-  app.delete("/courses/:courseId/:userId",course.dropCourse);
-  //app.get("/courses/classlist/:id",course.getClassList);
+  app.get("/courses/:courseId/:userId",course.registerUser);      //register a user to a course
+  app.delete("/courses/:courseId/:userId",course.dropCourse);     //drop a course for user
+  
+  app.get("/classlist/:id",course.showClassList);                 //view users in a course
+  app.get("/courselist/:id",user.showCourseList);                 //view courses for a user
+  
+  app.get("/isregistered/:courseId/:userId",user.isRegistered);                 //view courses for a user
   //Added by Sruthi ---- ends here
 };

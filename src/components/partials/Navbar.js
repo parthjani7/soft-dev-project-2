@@ -16,11 +16,15 @@ const AdminHome = lazy(() => import("../pages/Admin/Home"));
 const AdminCourse = lazy(() => import("../pages/Admin/Courses/Course"));
 const AdminAddCourse = lazy(() => import("../pages/Admin/Courses/Add"));
 const AdminCourseShow = lazy(() => import("../pages/Admin/Courses/Show"));
+const AdminClasslist = lazy(() => import("../pages/Admin/Courses/Classlist"));
 const AdminUsers = lazy(() => import("../pages/Admin/Users/User"));
 const AdminAddUsers = lazy(() => import("../pages/Admin/Users/Add"));
 const AdminEditUser = lazy(() => import("../pages/Admin/Users/Edit"));
 const AdminAssignments = lazy(() =>
   import("../pages/Admin/Assignments/Assignment")
+);
+const AdminAllAssignments = lazy(() =>
+  import("../pages/Admin/Assignments/AllAssignments")
 );
 const AdminAddAssignments = lazy(() =>
   import("../pages/Admin/Assignments/Add")
@@ -125,12 +129,24 @@ export default class Navbar extends React.Component {
                   <Route exact path="/courses/add" component={AdminAddCourse} />
                 )}
                 {user_type === "admin" && (
+                  <Route exact path="/assignments" component={AdminAllAssignments}/>
+                )}
+                {user_type === "admin" && (
                   <Route
                     exact
                     path="/courses/:id"
                     component={AdminCourseShow}
                   />
                 )}
+                { //Added by Sruthi
+                  user_type === "admin" && (
+                    <Route
+                      exact
+                      path="/courses/:id/classlist"
+                      component={AdminClasslist}
+                    />
+                  )
+                }
                 {user_type === "admin" && (
                   <Route exact path="/users" component={AdminUsers} />
                 )}
