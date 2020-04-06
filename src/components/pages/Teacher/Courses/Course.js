@@ -20,8 +20,6 @@ class Course extends Component {
   };
 
   render() {
-    const { user } = this.props.auth;
-
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
         <div className="row">
@@ -30,7 +28,7 @@ class Course extends Component {
             <div className="row">
               <div className="col-md-6">
                 <h4>
-                  <b>List of Courses</b>
+                  <b>Your Courses:</b>
                 </h4>
               </div>
               <div className="col-md-6 text-right">
