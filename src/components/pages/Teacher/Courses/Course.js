@@ -25,7 +25,10 @@ class Course extends Component {
         <div className="row">
           <div className="col s12 center-align">
             <br />
+            <h4>Hey {localStorage.username}!</h4>
+            <hr/>
             <div className="row">
+              
               <div className="col-md-6">
                 <h4>
                   <b>Your Courses:</b>

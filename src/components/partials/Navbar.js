@@ -10,6 +10,8 @@ import { Provider } from "react-redux";
 import store from "../../store";
 
 const StudentHome = lazy(() => import("../pages/Student/Home"));
+const StudentCourseShow = lazy(() => import("../pages/Student/Courses/Show"));
+const StudentAssignments = lazy(() => import("../pages/Student/Assignment"));
 
 const TeacherHome = lazy(() => import("../pages/Teacher/Home"));
 const TeacherCourse = lazy(() => import("../pages/Teacher/Courses/Course"));
@@ -119,8 +121,35 @@ export default class Navbar extends React.Component {
             <Suspense fallback={<div>Loading...</div>}>
               <Switch>
                 {user_type === "student" && (
-                  <Route exact path="/home" component={StudentHome} />
+                  <Route exact path="/home" component={TeacherCourse} />
                 )}
+                {user_type === "student" && (
+                  <Route exact path="/courses" component={TeacherCourse} />
+                )}
+                {user_type === "student" && (
+                  <Route
+                    exact
+                    path="/courses/:id"
+                    component={StudentCourseShow}
+                  />
+                )}
+                {
+                  user_type === "student" && (
+                    <Route
+                      exact
+                      path="/courses/:id/classlist"
+                      component={TeacherClasslist}
+                    />
+                  )
+                }
+                {(user_type === "student") && (
+                  <Route
+                    exact
+                    path="/courses/:id/assignments"
+                    component={StudentAssignments}
+                  />
+                )}
+
                 {user_type === "teacher" && (
                   <Route exact path="/home" component={TeacherCourse} />
                 )}
