@@ -38,4 +38,21 @@ export const getClassList = id => dispatch => {
   });
 };
 
+export const registerUser = (courseId, userId) => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+    .get(`/courses/${courseId}/${userId}`)
+    .then(res => resolve(res))
+    .catch(err => reject(err));
+  });
+}
+
+export const dropUser = (courseId, userId) => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+    .delete(`/courses/${courseId}/${userId}`)
+    .then(res => resolve(res))
+    .catch(err => reject(err));
+  });
+}
 //Ends here

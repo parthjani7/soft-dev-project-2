@@ -17,6 +17,7 @@ const AdminCourse = lazy(() => import("../pages/Admin/Courses/Course"));
 const AdminAddCourse = lazy(() => import("../pages/Admin/Courses/Add"));
 const AdminCourseShow = lazy(() => import("../pages/Admin/Courses/Show"));
 const AdminClasslist = lazy(() => import("../pages/Admin/Courses/Classlist"));
+const AdminCourseRegisterUser = lazy(() => import("../pages/Admin/Courses/RegisterUser"));
 const AdminUsers = lazy(() => import("../pages/Admin/Users/User"));
 const AdminAddUsers = lazy(() => import("../pages/Admin/Users/Add"));
 const AdminEditUser = lazy(() => import("../pages/Admin/Users/Edit"));
@@ -147,6 +148,10 @@ export default class Navbar extends React.Component {
                     />
                   )
                 }
+                
+                {user_type === "admin" && (
+                  <Route exact path="/courses/:courseId/register" component={AdminCourseRegisterUser} />
+                )}
                 {user_type === "admin" && (
                   <Route exact path="/users" component={AdminUsers} />
                 )}

@@ -2,26 +2,19 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { getClassList } from "../../../../actions/courseActions";
+import { getClassList, dropUser } from "../../../../actions/courseActions";
 
-import {
-  getAssignments,
-  deleteAssignment
-} from "../../../../actions/assignmentActions";
 
 class Classlist extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      course_id: null,
+      course_id: this.props.match.params.id,
       classlist: []
     };
   }
   componentDidMount = () => {
-    const { id } = this.props.match.params;
-
-    this.setState({ course_id: id });
 
     this.props.getClassList(this.props.match.params.id).then(res => {
         this.setState({
@@ -30,11 +23,12 @@ class Classlist extends Component {
     });
   };
 
-//   onClickDelete = id => {
-//     this.props.deleteAssignment(id).then(() => {
-//       window.location.reload();
-//     });
-//   };
+onClickDrop = userId => {
+  var courseId = this.props.match.params.id;
+  this.props.dropUser(courseId,userId).then(() => {
+    window.location.href= "/courses/" + this.state.course_id + "/classlist";
+  });
+};
 
   render() {
     return (
@@ -50,7 +44,7 @@ class Classlist extends Component {
               </div>
               <div className="col-md-6 text-right">
                 <a
-                  href={``}
+                  href={"/courses/" + this.state.course_id + "/register"}
                   className="btn btn-primary"
                 >
                   <i className="fa fa-plus"></i> Register User
@@ -90,7 +84,7 @@ class Classlist extends Component {
                       </a> */}
                       <td>
                       <button
-                        onClick={() => this.onClickDelete(user._id)}
+                        onClick={() => this.onClickDrop(user._id)}
                         className="btn btn-danger ml-1"
                       >
                         <i className="fa fa-trash"></i>
@@ -109,6 +103,7 @@ class Classlist extends Component {
 
 Classlist.propTypes = {
   getClassList: PropTypes.func.isRequired,
+  dropUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 
@@ -116,6 +111,6 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getClassList })(
+export default connect(mapStateToProps, { getClassList, dropUser })(
   Classlist
 );
