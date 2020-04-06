@@ -10,8 +10,13 @@ import { Provider } from "react-redux";
 import store from "../../store";
 
 const StudentHome = lazy(() => import("../pages/Student/Home"));
+
 const TeacherHome = lazy(() => import("../pages/Teacher/Home"));
+const TeacherCourse = lazy(() => import("../pages/Teacher/Courses/Course"));
+
 const GuardianHome = lazy(() => import("../pages/Guardian/Home"));
+
+
 const AdminHome = lazy(() => import("../pages/Admin/Home"));
 const AdminCourse = lazy(() => import("../pages/Admin/Courses/Course"));
 const AdminAddCourse = lazy(() => import("../pages/Admin/Courses/Add"));
@@ -117,6 +122,17 @@ export default class Navbar extends React.Component {
                 {user_type === "teacher" && (
                   <Route exact path="/home" component={TeacherHome} />
                 )}
+                {user_type === "teacher" && (
+                  <Route exact path="/courses" component={TeacherCourse} />
+                )}
+                {user_type === "teacher" && (
+                  <Route
+                    exact
+                    path="/courses/:id"
+                    component={AdminCourseShow}
+                  />
+                )}
+                
                 {user_type === "guardian" && (
                   <Route exact path="/home" component={GuardianHome} />
                 )}

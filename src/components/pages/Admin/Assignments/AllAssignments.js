@@ -8,7 +8,7 @@ import {
 class AllAssignments extends Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
       assignments: []
     };
@@ -38,12 +38,6 @@ class AllAssignments extends Component {
                 </h4>
               </div>
               <div className="col-md-6 text-right">
-                <a
-                  href={`/courses/${this.props.match.params.id}/assignments/add`}
-                  className="btn btn-primary"
-                >
-                  <i className="fa fa-plus"></i> Add
-                </a>
               </div>
             </div>
 
