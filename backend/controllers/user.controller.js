@@ -57,8 +57,9 @@ exports.destroy = function(req, res) {
 };
 
 //code added by Sruthi - starts here
+
 exports.showCourseList = function(req,res) {
-  User.findById(req.params.id)
+  User.findOne({ 'username': req.params.username })
     .populate('courselist','_id name code classlist assignments')
     .exec(function (err, data) {
         if(err) return handleError(err);

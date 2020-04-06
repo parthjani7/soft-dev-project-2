@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCourses } from "../../../../actions/courseActions";
-import { getUsers } from "../../../../actions/userActions";
+import { getCourseList } from "../../../../actions/userActions";
 
 class Course extends Component {
   constructor(props) {
@@ -14,11 +14,8 @@ class Course extends Component {
     };
   }
   componentDidMount = () => {
-    this.props.getCourses().then(res => {
-      this.setState({ courses: res.data });
-    });
-    this.props.getUsers().then(res => {
-      this.setState({ users: res.data });
+    this.props.getCourseList(localStorage.username).then(res => {
+        this.setState({courses: res.data})
     });
   };
 
@@ -62,10 +59,10 @@ class Course extends Component {
 }
 Course.propTypes = {
   getCourses: PropTypes.func.isRequired,
-  getUsers: PropTypes.func.isRequired,
+  getCourseList: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   auth: state.auth
 });
-export default connect(mapStateToProps, { getCourses, getUsers })(Course);
+export default connect(mapStateToProps, { getCourses, getCourseList })(Course);

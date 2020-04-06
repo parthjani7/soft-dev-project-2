@@ -37,7 +37,7 @@ module.exports = function(app) {
   app.delete("/courses/:courseId/:userId",course.dropCourse);     //drop a course for user
   
   app.get("/classlist/:id",course.showClassList);                 //view users in a course
-  app.get("/courselist/:id",user.showCourseList);                 //view courses for a user
+  app.get("/courselist/:username",user.showCourseList);                 //view courses for a user
   
   app.get("/isregistered/:courseId/:userId",user.isRegistered);                 //view courses for a user
   //Added by Sruthi ---- ends here
