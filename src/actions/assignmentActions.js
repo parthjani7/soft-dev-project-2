@@ -53,3 +53,21 @@ export const getAllAssignments = () => dispatch => {
       .catch(err => reject(err));
   });
 };
+
+export const getSubmissions = id => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/assignments/${id}/submissions`)
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+};
+
+export const getNonSubmissions = id => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/assignments/${id}/nonsubmissions`)
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+};

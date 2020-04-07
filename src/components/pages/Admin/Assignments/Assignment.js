@@ -69,9 +69,9 @@ class Assignment extends Component {
                   <tr key={key}>
                     <td>{key + 1}</td>
                     <td>
-                      {/* <a href={"/assignments/" + assignment._id}> */}
+                      <a href={"/assignments/" + assignment._id+"/submissions"}>
                       {assignment.name}
-                      {/* </a> */}
+                      </a>
                     </td>
                     <td>{assignment.description}</td>
                     <td>{new Date(assignment.due).toDateString()}</td>

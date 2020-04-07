@@ -74,16 +74,20 @@ exports.findWithCourse = function(req, res) {
 
 exports.showSubmissions = function(req,res) {
   Assignment.findById(req.params.id)
-  .select('submissions')
-  .then(user => res.json(user))
-  .catch(err => res.status(400).json(err));
-
+  .populate('submissions','_id firstname lastname email')
+  .exec(function (err, data){
+      if(err) return handleError(err);
+      console.log(data.submissions);
+      return res.send(data.submissions);
+  });
 }
 
 exports.showNonSubmissions = function(req,res) {
   Assignment.findById(req.params.id)
-  .select('nonsubmissions')
-  .then(user => res.json(user))
-  .catch(err => res.status(400).json(err));
-
+  .populate('nonsubmissions','_id firstname lastname email')
+  .exec(function (err, data){
+      if(err) return handleError(err);
+      console.log(data.nonsubmissions);
+      return res.send(data.nonsubmissions);
+  });
 }

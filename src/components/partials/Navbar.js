@@ -17,6 +17,7 @@ const TeacherHome = lazy(() => import("../pages/Teacher/Home"));
 const TeacherCourse = lazy(() => import("../pages/Teacher/Courses/Course"));
 const TeacherCourseShow = lazy(() => import("../pages/Teacher/Courses/Show"));
 const TeacherClasslist = lazy(() => import("../pages/Teacher/Courses/Classlist"));
+const AssignmentSubmissions = lazy(() => import("../pages/Admin/Assignments/Submissions"));
 
 const GuardianHome = lazy(() => import("../pages/Guardian/Home"));
 
@@ -187,6 +188,9 @@ export default class Navbar extends React.Component {
                 )}
                 {user_type === "admin" && (
                   <Route exact path="/assignments" component={AdminAllAssignments}/>
+                )}
+                {(user_type === "admin" || user_type === "teacher")&& (
+                  <Route exact path="/assignments/:id/submissions" component={AssignmentSubmissions}/>
                 )}
                 {user_type === "admin" && (
                   <Route
