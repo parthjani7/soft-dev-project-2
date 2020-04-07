@@ -28,6 +28,8 @@ module.exports = function(app) {
   //Assignments
   app.get("/assignments", assignment.index); //List all assignments
   app.get("/assignments/:id", assignment.show); //Read
+  app.get("/assignments/:id/submissions", assignment.showSubmissions);
+  app.get("/assignments/:id/nonsubmissions", assignment.showNonSubmissions);
   app.put("/assignments/:id", assignment.update); //Update
   app.delete("/assignments/:id", assignment.destroy); //Delete
 

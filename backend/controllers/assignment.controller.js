@@ -1,4 +1,5 @@
 let Assignment = require("../models/assignment.model");
+let Course = require("../models/course.model");
 
 exports.index = function(req, res) {
   Assignment.find()
@@ -7,19 +8,34 @@ exports.index = function(req, res) {
 };
 
 exports.store = function(req, res) {
-  const payload = {
-    name: req.body.name,
-    description: req.body.description,
-    due: new Date(req.body.due),
-    course: req.params.id
-  };
-  console.log(payload);
-  // return;
-  const assignment = new Assignment(payload);
-  assignment
-    .save()
-    .then(response => res.status(201).json())
-    .catch(err => res.status(400).json(err));
+
+  Course.findById(req.params.id)
+  .select('classlist')
+    .exec(function (err, data) {
+      if(err) return handleError(err);
+      non_submission = data.classlist;
+
+      const payload = {
+        name: req.body.name,
+        description: req.body.description,
+        due: new Date(req.body.due),
+        course: req.params.id,
+        nonsubmissions: data.classlist
+      };
+      console.log(data.classlist);
+      console.log(non_submission + "here");
+      console.log(payload);
+    
+      // return;
+      const assignment = new Assignment(payload);
+      assignment
+        .save()
+        .then(response => res.status(201).json())
+        .catch(err => res.status(400).json(err));
+
+    });
+
+  
 };
 
 exports.show = function(req, res) {
@@ -55,3 +71,19 @@ exports.findWithCourse = function(req, res) {
     .then(assignments => res.json(assignments))
     .catch(err => res.status(400).json(err));
 };
+
+exports.showSubmissions = function(req,res) {
+  Assignment.findById(req.params.id)
+  .select('submissions')
+  .then(user => res.json(user))
+  .catch(err => res.status(400).json(err));
+
+}
+
+exports.showNonSubmissions = function(req,res) {
+  Assignment.findById(req.params.id)
+  .select('nonsubmissions')
+  .then(user => res.json(user))
+  .catch(err => res.status(400).json(err));
+
+}
