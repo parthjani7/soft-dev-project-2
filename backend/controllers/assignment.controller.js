@@ -1,5 +1,6 @@
 let Assignment = require("../models/assignment.model");
 let Course = require("../models/course.model");
+let User = require("../models/user.model");
 
 exports.index = function(req, res) {
   Assignment.find()
@@ -83,44 +84,42 @@ exports.showSubmissions = function(req,res) {
 }
 
 exports.showNonSubmissions = function(req,res) {
-  // Assignment.findById(req.params.id)
-  // .exec(function (err, data){
-  //     if(err) return handleError(err);
-  //     const course_code = data.course;
-  //     const submissions = data.submissions;
-  //     var nonsubmissions;
-
-  //     console.log("Course Code: " + course_code);
-  //     console.log("Submissions: " + submissions);
-
-  //     Course.findById(course_code)
-  //     .select('classlist')
-  //     .exec(function (err,data){
-  //       if(err) return handleError(err);
-  //       const classlist = data.classlist;
-  //       console.log("Classlist: " + classlist);
-
-  //       Object.keys(classlist).forEach(function(key1) {
-  //         Object.keys(submissions).forEach(function(key2) {
-  //           if(classlist[key1].localeCompare(submissions[key2]))
-  //           {
-
-  //           }
-  //           console.log(classlist[key]);
-  //         });
-  //       });
-  //     });
-
-  //   return res.send(data.course);
-  // });
-
   Assignment.findById(req.params.id)
-  .populate('nonsubmissions','_id firstname lastname email')
   .exec(function (err, data){
       if(err) return handleError(err);
-      console.log(data.nonsubmissions);
-      return res.send(data.nonsubmissions);
+      const course_code = data.course;
+      const submissions = data.submissions;
+
+      Course.findById(course_code)
+      .select('classlist')
+      .exec(function (err,data){
+        if(err) return handleError(err);
+        const classlist = data.classlist;
+        var nonsubmissions = classlist;
+
+        Object.keys(classlist).forEach(function(key1) {
+          Object.keys(submissions).forEach(function(key2) {
+            if(JSON.stringify(classlist[key1])===JSON.stringify(submissions[key2]))
+            {
+              nonsubmissions.pull(classlist[key1]);
+            }
+          });
+        });
+
+        User.find({ _id: { $in: nonsubmissions}, type:'student'})
+        .then(users => res.json(users))
+        .catch(err => res.status(400).json(err));
+
+      });
   });
+
+  // Assignment.findById(req.params.id)
+  // .populate('nonsubmissions','_id firstname lastname email')
+  // .exec(function (err, data){
+  //     if(err) return handleError(err);
+  //     console.log(data.nonsubmissions);
+  //     return res.send(data.nonsubmissions);
+  // });
 }
 
 exports.submitUser = function(req,res) {
