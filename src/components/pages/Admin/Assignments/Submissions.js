@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
-  getAssignments,
+  getAssignment,
   getSubmissions,
   getNonSubmissions
 } from "../../../../actions/assignmentActions";
@@ -13,6 +13,7 @@ class Submissions extends Component {
 
     this.state = {
       assignment_id: null,
+      assignment: {},
       submissions: [],
       nonsubmissions: []
     };
@@ -21,6 +22,10 @@ class Submissions extends Component {
     const { id } = this.props.match.params.id;
 
     this.setState({ assignment_id: id });
+
+    this.props.getAssignment(this.props.match.params.id).then(res => {
+      this.setState({ assignment: res.data });
+    });
 
     this.props.getSubmissions(this.props.match.params.id).then(res => {
         this.setState({ submissions: res.data });
@@ -40,6 +45,25 @@ class Submissions extends Component {
   render() {
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
+        <div className="row">
+          <div className="col s12 center-align">
+            <br />
+                <h4>
+                  <b>Assignment Name: {this.state.assignment.name}</b><hr/>
+                </h4>
+                <div class="jumbotron">
+                  <h6>
+                    <b>Assignment Description:</b> {this.state.assignment.name}
+                  </h6>
+                  <h6>
+                    <b>Due date:</b> {new Date(this.state.assignment.due).toDateString()}
+                  </h6>
+                </div>
+
+            
+          </div>
+        </div>
+
         <div className="row">
           <div className="col s12 center-align">
             <br />
@@ -162,7 +186,7 @@ class Submissions extends Component {
 }
 
 Submissions.propTypes = {
-  getAssignments: PropTypes.func.isRequired,
+  getAssignment: PropTypes.func.isRequired,
   getSubmissions: PropTypes.func.isRequired,
   getNonSubmissions: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
@@ -170,6 +194,6 @@ Submissions.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth
 });
-export default connect(mapStateToProps, { getAssignments, getSubmissions, getNonSubmissions })(
+export default connect(mapStateToProps, { getAssignment, getSubmissions, getNonSubmissions })(
   Submissions
 );
