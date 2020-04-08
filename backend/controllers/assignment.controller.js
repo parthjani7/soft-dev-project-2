@@ -20,11 +20,9 @@ exports.store = function(req, res) {
         name: req.body.name,
         description: req.body.description,
         due: new Date(req.body.due),
-        course: req.params.id,
-        nonsubmissions: data.classlist
+        course: req.params.id
       };
       console.log(data.classlist);
-      console.log(non_submission + "here");
       console.log(payload);
     
       // return;
@@ -132,7 +130,6 @@ exports.submitUser = function(req,res) {
     assignment.course = assignment.course;
 
     assignment.submissions.push(req.params.userId);
-    assignment.nonsubmissions.pull(req.params.userId);
     assignment
     .save()
     .then(() => res.json("User submitted " + assignment.name))
@@ -151,7 +148,6 @@ exports.removeSubmission = function(req,res) {
     assignment.course = assignment.course;
 
     assignment.submissions.pull(req.params.userId);
-    assignment.nonsubmissions.push(req.params.userId);
     assignment
     .save()
     .then(() => res.json("User submission removed " + assignment.name))

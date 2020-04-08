@@ -64,12 +64,12 @@ class Submissions extends Component {
                   <b>Assignment Name: {this.state.assignment.name}</b><hr/>
                 </h4>
                 <div class="jumbotron">
-                  <h6>
-                    <b>Assignment Description:</b> {this.state.assignment.name}
-                  </h6>
-                  <h6>
+                  <h5>
+                    <b>Assignment Description:</b> {this.state.assignment.description}
+                  </h5>
+                  <h5>
                     <b>Due date:</b> {new Date(this.state.assignment.due).toDateString()}
-                  </h6>
+                  </h5>
                 </div>
 
             
