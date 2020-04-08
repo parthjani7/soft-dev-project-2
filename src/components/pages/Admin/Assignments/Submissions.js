@@ -4,7 +4,9 @@ import { connect } from "react-redux";
 import {
   getAssignment,
   getSubmissions,
-  getNonSubmissions
+  getNonSubmissions,
+  submitAssignment,
+  removeSubmission
 } from "../../../../actions/assignmentActions";
 
 class Submissions extends Component {
@@ -36,11 +38,21 @@ class Submissions extends Component {
     });
   };
 
-//   onClickDelete = id => {
-//     this.props.deleteAssignment(id).then(() => {
-//       window.location.reload();
-//     });
-//   };
+  onClickSubmit = userId => {
+    var assignmentId = this.props.match.params.id;
+    this.props.submitAssignment(assignmentId,userId).then(() => {   
+      console.log("came here");     
+      window.location.href= "/assignments/" + this.props.match.params.id + "/submissions";
+    });
+  };
+
+  onClickRemove = userId => {
+    var assignmentId = this.props.match.params.id;
+    this.props.removeSubmission(assignmentId,userId).then(() => {   
+      console.log("came here");     
+      window.location.href= "/assignments/" + this.props.match.params.id + "/submissions";
+    });
+  };
 
   render() {
     return (
@@ -64,13 +76,14 @@ class Submissions extends Component {
           </div>
         </div>
 
+
         <div className="row">
           <div className="col s12 center-align">
             <br />
             <div className="row">
               <div className="col-md-6">
                 <h4>
-                  <b>List of Submissions</b>
+                  <b>Submissions:</b>
                 </h4>
               </div>
               <div className="col-md-6 text-right">
@@ -91,11 +104,11 @@ class Submissions extends Component {
                   <th scope="col">First Name</th>
                   <th scope="col">Last Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Actions</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {this.state.submissions.map((user, key) => (
+              {this.state.submissions.map((user, key) => (
                   <tr key={key}>
                     <td>{key + 1}</td>
                     <td>{user.firstname}
@@ -110,9 +123,10 @@ class Submissions extends Component {
                         <i className="fa fa-pencil"></i>
                       </a> */}
                       <button
-                        className="btn btn-danger ml-1"
+                        className="btn btn-success ml-1"
+                        onClick={() => this.onClickRemove(user._id)}
                       >
-                        <i className="fa fa-trash"></i>
+                        <i className="fa fa-check"></i>
                       </button>
                     </td>
                   </tr>
@@ -121,6 +135,7 @@ class Submissions extends Component {
             </table>
           </div>
         </div>
+        
 
         <div className="row">
           <div className="col s12 center-align">
@@ -128,7 +143,7 @@ class Submissions extends Component {
             <div className="row">
               <div className="col-md-6">
                 <h4>
-                  <b>List of Non Submissions</b>
+                  <b>Pending Submissions:</b>
                 </h4>
               </div>
               <div className="col-md-6 text-right">
@@ -149,7 +164,7 @@ class Submissions extends Component {
                   <th scope="col">First Name</th>
                   <th scope="col">Last Name</th>
                   <th scope="col">Email</th>
-                  <th scope="col">Actions</th>
+                  <th scope="col">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -168,9 +183,10 @@ class Submissions extends Component {
                         <i className="fa fa-pencil"></i>
                       </a> */}
                       <button
+                        onClick={() => this.onClickSubmit(user._id)}
                         className="btn btn-danger ml-1"
                       >
-                        <i className="fa fa-trash"></i>
+                        <i className="fa fa-remove"></i>
                       </button>
                     </td>
                   </tr>
@@ -189,11 +205,13 @@ Submissions.propTypes = {
   getAssignment: PropTypes.func.isRequired,
   getSubmissions: PropTypes.func.isRequired,
   getNonSubmissions: PropTypes.func.isRequired,
+  submitAssignment: PropTypes.func.isRequired,
+  removeSubmission: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   auth: state.auth
 });
-export default connect(mapStateToProps, { getAssignment, getSubmissions, getNonSubmissions })(
+export default connect(mapStateToProps, { getAssignment, getSubmissions, getNonSubmissions, submitAssignment, removeSubmission })(
   Submissions
 );

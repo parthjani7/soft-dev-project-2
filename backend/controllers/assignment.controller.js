@@ -83,6 +83,37 @@ exports.showSubmissions = function(req,res) {
 }
 
 exports.showNonSubmissions = function(req,res) {
+  // Assignment.findById(req.params.id)
+  // .exec(function (err, data){
+  //     if(err) return handleError(err);
+  //     const course_code = data.course;
+  //     const submissions = data.submissions;
+  //     var nonsubmissions;
+
+  //     console.log("Course Code: " + course_code);
+  //     console.log("Submissions: " + submissions);
+
+  //     Course.findById(course_code)
+  //     .select('classlist')
+  //     .exec(function (err,data){
+  //       if(err) return handleError(err);
+  //       const classlist = data.classlist;
+  //       console.log("Classlist: " + classlist);
+
+  //       Object.keys(classlist).forEach(function(key1) {
+  //         Object.keys(submissions).forEach(function(key2) {
+  //           if(classlist[key1].localeCompare(submissions[key2]))
+  //           {
+
+  //           }
+  //           console.log(classlist[key]);
+  //         });
+  //       });
+  //     });
+
+  //   return res.send(data.course);
+  // });
+
   Assignment.findById(req.params.id)
   .populate('nonsubmissions','_id firstname lastname email')
   .exec(function (err, data){
@@ -91,3 +122,41 @@ exports.showNonSubmissions = function(req,res) {
       return res.send(data.nonsubmissions);
   });
 }
+
+exports.submitUser = function(req,res) {
+  Assignment.findById(req.params.assignmentId)
+  .then(assignment => {
+    assignment.name = assignment.name;
+    assignment.description = assignment.description;
+    assignment.due = assignment.due;
+    assignment.status = assignment.status;
+    assignment.course = assignment.course;
+
+    assignment.submissions.push(req.params.userId);
+    assignment.nonsubmissions.pull(req.params.userId);
+    assignment
+    .save()
+    .then(() => res.json("User submitted " + assignment.name))
+    .catch(err => res.status(400).json("Error => " + err));
+  })
+  .catch(err => res.status(400).json("Error => " + err));
+};
+
+exports.removeSubmission = function(req,res) {
+  Assignment.findById(req.params.assignmentId)
+  .then(assignment => {
+    assignment.name = assignment.name;
+    assignment.description = assignment.description;
+    assignment.due = assignment.due;
+    assignment.status = assignment.status;
+    assignment.course = assignment.course;
+
+    assignment.submissions.pull(req.params.userId);
+    assignment.nonsubmissions.push(req.params.userId);
+    assignment
+    .save()
+    .then(() => res.json("User submission removed " + assignment.name))
+    .catch(err => res.status(400).json("Error => " + err));
+  })
+  .catch(err => res.status(400).json("Error => " + err));
+};

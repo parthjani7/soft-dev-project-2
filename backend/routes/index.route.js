@@ -42,5 +42,8 @@ module.exports = function(app) {
   app.get("/courselist/:username",user.showCourseList);                 //view courses for a user
   
   app.get("/isregistered/:courseId/:userId",user.isRegistered);                 //view courses for a user
+
+  app.get("/submit/:assignmentId/:userId",assignment.submitUser);
+  app.get("/remove/:assignmentId/:userId",assignment.removeSubmission);
   //Added by Sruthi ---- ends here
 };

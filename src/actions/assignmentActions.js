@@ -71,3 +71,21 @@ export const getNonSubmissions = id => dispatch => {
       .catch(err => reject(err));
   });
 };
+
+export const submitAssignment = (assignmentId, userId) => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/submit/${assignmentId}/${userId}`)
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+};
+
+export const removeSubmission = (assignmentId, userId) => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/remove/${assignmentId}/${userId}`)
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+};
