@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getUsers} from "../../../../actions/userActions";
-import {registerUser} from "../../../../actions/courseActions";
+import { getUsers } from "../../../../actions/userActions";
+import { registerUser } from "../../../../actions/courseActions";
 
 class RegisterUser extends Component {
   constructor(props) {
@@ -12,32 +12,30 @@ class RegisterUser extends Component {
       teachers: [],
       students: [],
       guardians: [],
-      course_id: this.props.match.params.courseId
+      course_id: this.props.match.params.courseId,
     };
   }
   componentDidMount = () => {
-    this.props.getUsers("teacher").then(res => {
+    this.props.getUsers("teacher").then((res) => {
       this.setState({ teachers: res.data });
     });
-    this.props.getUsers("student").then(res => {
+    this.props.getUsers("student").then((res) => {
       this.setState({ students: res.data });
     });
-    this.props.getUsers("guardian").then(res => {
+    this.props.getUsers("guardian").then((res) => {
       this.setState({ guardians: res.data });
     });
   };
-  
-  onClickRegister = userId => {
+
+  onClickRegister = (userId) => {
     var courseId = this.props.match.params.courseId;
-    this.props.registerUser(courseId,userId).then(() => {
-        //window.location.reload();
-        
-      window.location.href= "/courses/" + this.state.course_id + "/classlist";
+    this.props.registerUser(courseId, userId).then(() => {
+      //window.location.reload();
+
+      window.location.href = "/courses/" + this.state.course_id + "/classlist";
     });
   };
   render() {
-    const { user } = this.props.auth;
-
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
         <div className="row">
@@ -71,7 +69,6 @@ class RegisterUser extends Component {
                     <td>{teacher.lastname}</td>
                     <td>{teacher.email}</td>
                     <td>
-                      
                       <button
                         onClick={() => this.onClickRegister(teacher._id)}
                         className="btn btn-primary"
@@ -117,7 +114,6 @@ class RegisterUser extends Component {
                     <td>{student.lastname}</td>
                     <td>{student.email}</td>
                     <td>
-                      
                       <button
                         onClick={() => this.onClickRegister(student._id)}
                         className="btn btn-primary"
@@ -163,7 +159,6 @@ class RegisterUser extends Component {
                     <td>{guardian.lastname}</td>
                     <td>{guardian.email}</td>
                     <td>
-                      
                       <button
                         onClick={() => this.onClickRegister(guardian._id)}
                         className="btn btn-primary"
@@ -185,9 +180,11 @@ RegisterUser.propTypes = {
   getUsers: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
   registerUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
-export default connect(mapStateToProps, { getUsers, registerUser })(RegisterUser);
+export default connect(mapStateToProps, { getUsers, registerUser })(
+  RegisterUser
+);

@@ -10,7 +10,7 @@ class Login extends React.Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
     };
   }
 
@@ -23,9 +23,9 @@ class Login extends React.Component {
     }
   }
 
-  onChangeEmail = e => this.setState({ email: e.target.value });
+  onChangeEmail = (e) => this.setState({ email: e.target.value });
 
-  onChangePassword = e => this.setState({ password: e.target.value });
+  onChangePassword = (e) => this.setState({ password: e.target.value });
 
   UNSAFE_componentWillReceiveProps(nextProps, prevState) {
     if (nextProps.auth.isAuthenticated) {
@@ -39,7 +39,7 @@ class Login extends React.Component {
     // }
   }
 
-  checkLogin = e => {
+  checkLogin = (e) => {
     e.preventDefault();
     this.props.loginUser(this.state);
   };
@@ -84,12 +84,7 @@ class Login extends React.Component {
                       id="password"
                     />
                   </div>
-                  <button
-                    type="button"
-                    id="submit"
-                    onClick={this.checkLogin}
-                    className="btn btn-primary"
-                  >
+                  <button type="submit" id="submit" className="btn btn-primary">
                     Submit
                   </button>
                 </form>
@@ -105,10 +100,10 @@ class Login extends React.Component {
 Login.propTypes = {
   loginUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 export default connect(mapStateToProps, { loginUser })(Login);

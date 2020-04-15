@@ -10,30 +10,28 @@ class User extends Component {
     this.state = {
       teachers: [],
       students: [],
-      guardians: []
+      guardians: [],
     };
   }
   componentDidMount = () => {
-    this.props.getUsers("teacher").then(res => {
+    this.props.getUsers("teacher").then((res) => {
       this.setState({ teachers: res.data });
     });
-    this.props.getUsers("student").then(res => {
+    this.props.getUsers("student").then((res) => {
       this.setState({ students: res.data });
     });
-    this.props.getUsers("guardian").then(res => {
+    this.props.getUsers("guardian").then((res) => {
       this.setState({ guardians: res.data });
     });
   };
 
-  onClickDelete = id => {
+  onClickDelete = (id) => {
     this.props.deleteUser(id).then(() => {
       window.location.reload();
     });
   };
 
   render() {
-    const { user } = this.props.auth;
-
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
         <div className="row">
@@ -198,9 +196,9 @@ class User extends Component {
 User.propTypes = {
   getUsers: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 export default connect(mapStateToProps, { getUsers, deleteUser })(User);
