@@ -53,3 +53,39 @@ export const getAllAssignments = () => dispatch => {
       .catch(err => reject(err));
   });
 };
+
+export const getSubmissions = id => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/assignments/${id}/submissions`)
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+};
+
+export const getNonSubmissions = id => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/assignments/${id}/nonsubmissions`)
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+};
+
+export const submitAssignment = (assignmentId, userId) => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/submit/${assignmentId}/${userId}`)
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+};
+
+export const removeSubmission = (assignmentId, userId) => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`/remove/${assignmentId}/${userId}`)
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+};

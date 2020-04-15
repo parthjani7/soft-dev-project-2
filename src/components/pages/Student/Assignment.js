@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import {
   getAssignments,
   deleteAssignment
-} from "../../../../actions/assignmentActions";
+} from "../../../actions/assignmentActions";
 
 class Assignment extends Component {
   constructor(props) {
@@ -44,12 +44,6 @@ class Assignment extends Component {
                 </h4>
               </div>
               <div className="col-md-6 text-right">
-                <a
-                  href={`/courses/${this.props.match.params.id}/assignments/add`}
-                  className="btn btn-primary"
-                >
-                  <i className="fa fa-plus"></i> Add
-                </a>
               </div>
             </div>
 
@@ -61,7 +55,6 @@ class Assignment extends Component {
                   <th scope="col">Name</th>
                   <th scope="col">Description</th>
                   <th scope="col">Due</th>
-                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -69,26 +62,13 @@ class Assignment extends Component {
                   <tr key={key}>
                     <td>{key + 1}</td>
                     <td>
-                      <a href={"/assignments/" + assignment._id+"/submissions"}>
+                      {/* <a href={"/assignments/" + assignment._id}> */}
                       {assignment.name}
-                      </a>
+                      {/* </a> */}
                     </td>
                     <td>{assignment.description}</td>
                     <td>{new Date(assignment.due).toDateString()}</td>
-                    <td>
-                      {/* <a
-                        href={"users/" + assignment._id + "/edit"}
-                        className="btn btn-primary"
-                      >
-                        <i className="fa fa-pencil"></i>
-                      </a> */}
-                      <button
-                        onClick={() => this.onClickDelete(assignment._id)}
-                        className="btn btn-danger ml-1"
-                      >
-                        <i className="fa fa-trash"></i>
-                      </button>
-                    </td>
+                    
                   </tr>
                 ))}
               </tbody>

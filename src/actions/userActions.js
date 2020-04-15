@@ -36,3 +36,13 @@ export const deleteUser = id => dispatch => {
       .catch(err => reject(err));
   });
 };
+
+//Added by Sruthi
+export const getCourseList = username => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+    .get(`/courselist/${username}`)
+    .then(res => resolve(res))
+    .catch(err => reject(err));
+  });
+};

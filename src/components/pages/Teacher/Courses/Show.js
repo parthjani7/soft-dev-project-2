@@ -32,7 +32,20 @@ class Course extends Component {
                 <b>Selected Course : {this.state.course.name}</b>
               </h4>
             )}
-            <br />
+            <hr />
+            <ul class="list-group">
+              <li class="list-group-item">
+                <a href={"/courses/" + this.state.course_id + "/classlist"}>
+                  View classlist
+                </a>
+              </li>
+              <li class="list-group-item">
+                <a href={"/courses/" + this.state.course_id + "/assignments"}>
+                  {" "}
+                  Manage Assignments
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

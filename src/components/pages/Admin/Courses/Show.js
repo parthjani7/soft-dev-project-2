@@ -9,21 +9,19 @@ class Course extends Component {
 
     this.state = {
       course_id: null,
-      course: null
+      course: null,
     };
   }
   componentDidMount = () => {
     const { id } = this.props.match.params;
     this.setState({ course_id: id });
 
-    this.props.getCourse(id).then(res => {
+    this.props.getCourse(id).then((res) => {
       this.setState({ course: res.data });
     });
   };
 
   render() {
-    const { user } = this.props.auth;
-
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
         <div className="row">
@@ -35,13 +33,13 @@ class Course extends Component {
               </h4>
             )}
             <hr />
-            <ul class="list-group">
-              <li class="list-group-item">
+            <ul className="list-group">
+              <li className="list-group-item">
                 <a href={"/courses/" + this.state.course_id + "/classlist"}>
                   Manage Users
                 </a>
               </li>
-              <li class="list-group-item">
+              <li className="list-group-item">
                 <a href={"/courses/" + this.state.course_id + "/assignments"}>
                   {" "}
                   Manage Assignments
@@ -56,9 +54,9 @@ class Course extends Component {
 }
 Course.propTypes = {
   getCourse: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 export default connect(mapStateToProps, { getCourse })(Course);

@@ -11,9 +11,21 @@ const assignmentSchema = new Schema( // creating new schema
     status: { type: Boolean, required: false, default: true },
     course: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Course",
       required: "true"
-    }
+    },
+    submissions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ],
+    nonsubmissions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ]
     // instruction_file: {                          //To be added later
     //     type: Schema.Types.ObjectId,
     //     ref: "File"

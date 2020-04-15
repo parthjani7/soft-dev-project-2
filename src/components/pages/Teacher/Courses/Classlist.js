@@ -43,12 +43,6 @@ onClickDrop = userId => {
                 </h4>
               </div>
               <div className="col-md-6 text-right">
-                <a
-                  href={"/courses/" + this.state.course_id + "/register"}
-                  className="btn btn-primary"
-                >
-                  <i className="fa fa-plus"></i> Register User
-                </a>
               </div>
             </div>
 
@@ -83,12 +77,6 @@ onClickDrop = userId => {
                         <i className="fa fa-pencil"></i>
                       </a> */}
                       <td>
-                      <button
-                        onClick={() => this.onClickDrop(user._id)}
-                        className="btn btn-danger ml-1"
-                      >
-                        <i className="fa fa-trash"></i>
-                      </button>
                     </td>
                   </tr>
                 ))}

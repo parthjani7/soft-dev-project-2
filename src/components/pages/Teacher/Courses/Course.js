@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCourses } from "../../../../actions/courseActions";
+import { getCourseList } from "../../../../actions/userActions";
 
 class Course extends Component {
   constructor(props) {
@@ -9,12 +10,12 @@ class Course extends Component {
 
     this.state = {
       courses: [],
-      users: [],
+      users: []
     };
   }
   componentDidMount = () => {
-    this.props.getCourses().then((res) => {
-      this.setState({ courses: res.data });
+    this.props.getCourseList(localStorage.username).then(res => {
+        this.setState({courses: res.data})
     });
   };
 
@@ -24,16 +25,16 @@ class Course extends Component {
         <div className="row">
           <div className="col s12 center-align">
             <br />
+            <h4>Hey {localStorage.username}!</h4>
+            <hr/>
             <div className="row">
+              
               <div className="col-md-6">
                 <h4>
-                  <b>List of Courses</b>
+                  <b>Your Courses:</b>
                 </h4>
               </div>
               <div className="col-md-6 text-right">
-                <a href={`/courses/add`} className="btn btn-primary">
-                  <i className="fa fa-plus"></i> Add
-                </a>
               </div>
             </div>
             <hr />
@@ -59,10 +60,10 @@ class Course extends Component {
 }
 Course.propTypes = {
   getCourses: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
+  getCourseList: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  getCourses: state.getCourses,
+const mapStateToProps = state => ({
+  auth: state.auth
 });
-export default connect(mapStateToProps, { getCourses })(Course);
+export default connect(mapStateToProps, { getCourses, getCourseList })(Course);

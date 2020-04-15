@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getUsers, deleteUser } from "../../../../actions/userActions";
+import { getUsers } from "../../../../actions/userActions";
+import { registerUser } from "../../../../actions/courseActions";
 
-class User extends Component {
+class RegisterUser extends Component {
   constructor(props) {
     super(props);
 
@@ -11,6 +12,7 @@ class User extends Component {
       teachers: [],
       students: [],
       guardians: [],
+      course_id: this.props.match.params.courseId,
     };
   }
   componentDidMount = () => {
@@ -25,12 +27,14 @@ class User extends Component {
     });
   };
 
-  onClickDelete = (id) => {
-    this.props.deleteUser(id).then(() => {
-      window.location.reload();
+  onClickRegister = (userId) => {
+    var courseId = this.props.match.params.courseId;
+    this.props.registerUser(courseId, userId).then(() => {
+      //window.location.reload();
+
+      window.location.href = "/courses/" + this.state.course_id + "/classlist";
     });
   };
-
   render() {
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
@@ -44,7 +48,6 @@ class User extends Component {
             <a
               className="btn btn-success float-right mb-2"
               href="/users/add?type=teacher"
-              id="add_teacher_btn"
             >
               <i className="fa fa-plus"></i> Add
             </a>
@@ -66,17 +69,11 @@ class User extends Component {
                     <td>{teacher.lastname}</td>
                     <td>{teacher.email}</td>
                     <td>
-                      <a
-                        href={"users/" + teacher._id + "/edit"}
+                      <button
+                        onClick={() => this.onClickRegister(teacher._id)}
                         className="btn btn-primary"
                       >
-                        <i className="fa fa-pencil"></i>
-                      </a>
-                      <button
-                        onClick={() => this.onClickDelete(teacher._id)}
-                        className="btn btn-danger ml-1"
-                      >
-                        <i className="fa fa-trash"></i>
+                        <i className="fa fa-user-plus"></i>
                       </button>
                     </td>
                   </tr>
@@ -96,7 +93,6 @@ class User extends Component {
             <a
               className="btn btn-success float-right mb-2"
               href="/users/add?type=student"
-              id="add_student_btn"
             >
               <i className="fa fa-plus"></i> Add
             </a>
@@ -118,17 +114,11 @@ class User extends Component {
                     <td>{student.lastname}</td>
                     <td>{student.email}</td>
                     <td>
-                      <a
-                        href={"users/" + student._id + "/edit"}
+                      <button
+                        onClick={() => this.onClickRegister(student._id)}
                         className="btn btn-primary"
                       >
-                        <i className="fa fa-pencil"></i>
-                      </a>
-                      <button
-                        onClick={() => this.onClickDelete(student._id)}
-                        className="btn btn-danger ml-1"
-                      >
-                        <i className="fa fa-trash"></i>
+                        <i className="fa fa-user-plus"></i>
                       </button>
                     </td>
                   </tr>
@@ -148,7 +138,6 @@ class User extends Component {
             <a
               className="btn btn-success float-right mb-2"
               href="/users/add?type=guardian"
-              id="add_guardian_btn"
             >
               <i className="fa fa-plus"></i> Add
             </a>
@@ -170,17 +159,11 @@ class User extends Component {
                     <td>{guardian.lastname}</td>
                     <td>{guardian.email}</td>
                     <td>
-                      <a
-                        href={"users/" + guardian._id + "/edit"}
+                      <button
+                        onClick={() => this.onClickRegister(guardian._id)}
                         className="btn btn-primary"
                       >
-                        <i className="fa fa-pencil"></i>
-                      </a>
-                      <button
-                        onClick={() => this.onClickDelete(guardian._id)}
-                        className="btn btn-danger ml-1"
-                      >
-                        <i className="fa fa-trash"></i>
+                        <i className="fa fa-user-plus"></i>
                       </button>
                     </td>
                   </tr>
@@ -193,12 +176,15 @@ class User extends Component {
     );
   }
 }
-User.propTypes = {
+RegisterUser.propTypes = {
   getUsers: PropTypes.func.isRequired,
   deleteUser: PropTypes.func.isRequired,
+  registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
-export default connect(mapStateToProps, { getUsers, deleteUser })(User);
+export default connect(mapStateToProps, { getUsers, registerUser })(
+  RegisterUser
+);

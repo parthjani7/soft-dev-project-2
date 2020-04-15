@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Link, withRouter, useLocation } from "react-router-dom";
+import React from "react";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../../../actions/authActions";
@@ -14,7 +14,7 @@ class Add extends React.Component {
       username: "",
       type: this.useQuery().get("type") || "",
       email: "",
-      password: ""
+      password: "",
     };
   }
 
@@ -22,9 +22,9 @@ class Add extends React.Component {
     return new URLSearchParams(this.props.location.search);
   };
 
-  onChange = e => this.setState({ [e.target.id]: e.target.value });
+  onChange = (e) => this.setState({ [e.target.id]: e.target.value });
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     this.props.registerUser(this.state).then(() => {
       window.location.href = "/users";
@@ -138,12 +138,12 @@ class Add extends React.Component {
 Add.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
 export default connect(mapStateToProps, { registerUser })(withRouter(Add));
