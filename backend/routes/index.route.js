@@ -31,6 +31,8 @@ module.exports = function (app) {
   //Assignments
   router.get("/assignments", assignment.index); //List all assignments
   router.get("/assignments/:id", assignment.show); //Read
+  router.get("/assignments/:id/submissions", assignment.showSubmissions);
+  router.get("/assignments/:id/nonsubmissions", assignment.showNonSubmissions);
   router.put("/assignments/:id", assignment.update); //Update
   router.delete("/assignments/:id", assignment.destroy); //Delete
 
@@ -39,9 +41,12 @@ module.exports = function (app) {
   router.delete("/courses/:courseId/:userId", course.dropCourse); //drop a course for user
 
   router.get("/classlist/:id", course.showClassList); //view users in a course
-  router.get("/courselist/:id", user.showCourseList); //view courses for a user
+  router.get("/courselist/:username", user.showCourseList); //view courses for a user
 
   router.get("/isregistered/:courseId/:userId", user.isRegistered); //view courses for a user
+
+  router.get("/submit/:assignmentId/:userId", assignment.submitUser);
+  router.get("/remove/:assignmentId/:userId", assignment.removeSubmission);
   //Added by Sruthi ---- ends here
 
   app.use("/api/v1", router);

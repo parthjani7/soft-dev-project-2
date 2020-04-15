@@ -57,13 +57,16 @@ exports.destroy = function(req, res) {
 };
 
 //code added by Sruthi - starts here
-exports.showCourseList = function(req, res) {
-  User.findById(req.params.id)
-    .select("-password")
-    .then(user => res.status(200).json(user.courselist))
-    .catch(err => res.status(400).json("Error => " + err));
-};
 
+exports.showCourseList = function(req,res) {
+  User.findOne({ 'username': req.params.username })
+    .populate('courselist','_id name code classlist assignments')
+    .exec(function (err, data) {
+        if(err) return handleError(err);
+        console.log(data.courselist);
+        return res.send(data.courselist);
+    });
+};
 
 exports.isRegistered = function(req, res) {  
   var courselist;
