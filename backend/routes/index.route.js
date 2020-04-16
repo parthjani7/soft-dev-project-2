@@ -49,5 +49,5 @@ module.exports = function (app) {
   router.get("/remove/:assignmentId/:userId", assignment.removeSubmission);
   //Added by Sruthi ---- ends here
 
-  // app.use("/api/v1", router);
+  app.use("/api/v1", router);
 };

@@ -4,6 +4,7 @@ import Navbar from "./components/partials/Navbar";
 import setAuthToken from "./utils/setAuthToken";
 import { setCurrentUser } from "./actions/authActions";
 import store from "./store";
+import axios from "axios";
 // import "./App.css";
 
 // Check for token to keep user logged in
@@ -26,6 +27,11 @@ if (localStorage.jwtToken) {
   //   window.location.href = "./login";
   // }
 }
+
+axios.defaults.baseURL =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:5000/api/v1"
+    : "/api/v1";
 
 class App extends Component {
   render() {
