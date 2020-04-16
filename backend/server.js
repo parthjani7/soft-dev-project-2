@@ -33,7 +33,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // DB Connection
-const uri = process.env.MONGO_URI; // Connection URI(String)
+var uri = process.env.MONGO_URI; // Connection URI(String)
+if (process.env.NODE_ENV === "production") {
+  uri =
+    "mongodb+srv://parthjani7:Parth@123@softdevproject-9wvx3.mongodb.net/test?retryWrites=true&w=majority"; // Connection URI(String)
+}
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true,
