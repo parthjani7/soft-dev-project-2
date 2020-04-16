@@ -9,9 +9,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "../../store";
 
+const EditUser = lazy(() => import("../pages/Admin/Edit"));
+
 const StudentHome = lazy(() => import("../pages/Student/Home"));
 const StudentCourseShow = lazy(() => import("../pages/Student/Courses/Show"));
 const StudentAssignments = lazy(() => import("../pages/Student/Assignment"));
+const StudentAssignmentDetails = lazy(() => import("../pages/Student/Detail"));
 
 const TeacherHome = lazy(() => import("../pages/Teacher/Home"));
 const TeacherCourse = lazy(() => import("../pages/Teacher/Courses/Course"));
@@ -21,7 +24,7 @@ const AssignmentSubmissions = lazy(() => import("../pages/Admin/Assignments/Subm
 
 const GuardianHome = lazy(() => import("../pages/Guardian/Home"));
 const GuardianCourse = lazy(() => import("../pages/Guardian/Courses/Course"));
-const AssignmentDetails = lazy(() => import("../pages/Guardian/Assignments/Detail"));
+const GuardianAssignmentDetails = lazy(() => import("../pages/Guardian/Assignments/Detail"));
 
 const AdminHome = lazy(() => import("../pages/Admin/Home"));
 const AdminCourse = lazy(() => import("../pages/Admin/Courses/Course"));
@@ -52,6 +55,7 @@ export default class Navbar extends React.Component {
   render() {
     const user_type = localStorage.type;
     const token = localStorage.jwtToken;
+    const user_name = localStorage.username;
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
@@ -90,6 +94,7 @@ export default class Navbar extends React.Component {
                 ""
               )}
 
+             
               {token && (
                 <li className="nav-item active">
                   <a className="nav-link" href="/courses">
@@ -106,6 +111,14 @@ export default class Navbar extends React.Component {
                 </li>
               ) : (
                 ""
+              )}
+
+              {token && (
+                <li className="nav-item active">
+                <a className="nav-link" href="/users/edit">
+                  My Account
+                </a>
+              </li>
               )}
 
               {token && (
@@ -157,8 +170,11 @@ export default class Navbar extends React.Component {
                 {user_type === "guardian" && (
                   <Route exact path="/courses" component={GuardianCourse}/>
                 )}                        
-                {(user_type === "guardian" || user_type === "student")&& (
-                  <Route exact path="/assignments/:id/details" component={AssignmentDetails}/>
+                {(user_type === "guardian")&& (
+                  <Route exact path="/assignments/:id/details" component={GuardianAssignmentDetails}/>
+                )}                        
+                {(user_type === "student")&& (
+                  <Route exact path="/assignments/:id/details" component={StudentAssignmentDetails}/>
                 )}     
                 {user_type === "teacher" && (
                   <Route exact path="/home" component={TeacherCourse} />
@@ -262,6 +278,8 @@ export default class Navbar extends React.Component {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/logout" component={Logout} />
                 <Route exact path="/signup" component={Signup} />
+                <Route exact path="/users/edit" component={EditUser} />
+                
                 <Switch>
                   {/* <PrivateRoute exact path="/" component={Home} /> */}
                 </Switch>
