@@ -60,6 +60,7 @@ exports.check = function(req, res) {
           },
           (err, token) => {
             res.json({
+              id:user.id,
               username: user.username,
               type: user.type,
               token

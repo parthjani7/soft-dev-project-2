@@ -156,17 +156,20 @@ exports.checkSubmission = function(req,res) {
 
     Assignment.findById(req.params.assignmentId)
     .exec(function(err, data2) {
+      if(err) return handleError(err);
       const submissions = data2.submissions;
+      var status = "Not submitted"
 
       Object.keys(submissions).forEach(function(key) {
         if(JSON.stringify(submissions[key])===JSON.stringify(userId))
         {
           console.log("Yes");
-          return res.send("Submitted");
+          status = "Submitted"
         }
       });
 
-      return res.send("Not Submitted");
+      console.log(status);
+      return res.send(status);
     });
 
     // console.log(data._id);

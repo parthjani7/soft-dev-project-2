@@ -35,17 +35,6 @@ class Assignment extends Component {
       assignments = res.data;
       this.setState({assignmentlist: assignments});
     });
-
-    
-
-    // Object.keys(assignments).forEach(function (key) {
-    //   const username = localStorage.username;
-    //   const assignmentId = assignments._id;
-    //   var status;
-    //   assignments.status = assignments._id;
-
-    //     this.setState({ assignmentlists: assignments });
-    //   });
   }
 
     onClickDelete = id => {
@@ -78,7 +67,6 @@ class Assignment extends Component {
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
                     <th scope="col">Due</th>
-                    <th scope="col">Status</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -86,13 +74,11 @@ class Assignment extends Component {
                     <tr key={key}>
                       <td>{key + 1}</td>
                       <td>
-                        {/* <a href={"/assignments/" + assignment._id}> */}
-                        {assignment.name}
-                        {/* </a> */}
-                      </td>
+                      <a href={"/assignments/" + assignment._id+"/details"}>
+                      {assignment.name}
+                      </a></td>
                       <td>{assignment.description}</td>
                       <td>{new Date(assignment.due).toDateString()}</td>
-                      <td>{assignment.status}</td>
                     </tr>
                   ))}
                 </tbody>

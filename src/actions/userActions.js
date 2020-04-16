@@ -55,3 +55,12 @@ export const getStudentCourseList = username => dispatch => {
     .catch(err => reject(err));
   });
 };
+
+export const getWardInformation = username => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+    .get(`/getstudent/${username}`)
+    .then(res => resolve(res))
+    .catch(err => reject(err));
+  });
+};

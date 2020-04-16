@@ -8,12 +8,12 @@ class Course extends Component {
     super(props);
 
     this.state = {
-      courses: []
+      courses: [],
     };
   }
   componentDidMount = () => {
-    this.props.getStudentCourseList(localStorage.username).then(res => {
-        this.setState({courses: res.data})
+    this.props.getStudentCourseList(localStorage.username).then((res) => {
+      this.setState({ courses: res.data });
     });
   };
 
@@ -24,16 +24,14 @@ class Course extends Component {
           <div className="col s12 center-align">
             <br />
             <h4>Hey {localStorage.username}!</h4>
-            <hr/>
+            <hr />
             <div className="row">
-              
               <div className="col-md-6">
                 <h4>
-                  <b>Your Ward's Courses:</b>
+                  <b>Your Child's Enrolled Courses:</b>
                 </h4>
               </div>
-              <div className="col-md-6 text-right">
-              </div>
+              <div className="col-md-6 text-right"></div>
             </div>
             <hr />
             {this.state.courses.map((course, key) => (
@@ -58,9 +56,9 @@ class Course extends Component {
 }
 Course.propTypes = {
   getStudentCourseList: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
-export default connect(mapStateToProps, {getStudentCourseList })(Course);
+export default connect(mapStateToProps, { getStudentCourseList })(Course);
