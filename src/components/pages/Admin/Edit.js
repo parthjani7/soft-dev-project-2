@@ -1,53 +1,38 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
+import React, { Component } from "react";
+import { Link, withRouter, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { registerUser } from "../../../../actions/authActions";
+import { getUser, updateUser } from "../../../actions/userActions";
 import "bootstrap/dist/css/bootstrap.min.css";
-import $ from "jquery";
 
-class Add extends React.Component {
+class Edit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       firstname: "",
       lastname: "",
       username: "",
-      type: this.useQuery().get("type") || "",
+      type: "",
       email: "",
-      password: "",
-      studentUsername: null,
+      password: ""
     };
   }
-  componentDidMount() {
-    this.viewglink(this.state.type);
-  }
 
-  useQuery = () => {
-    return new URLSearchParams(this.props.location.search);
+  componentDidMount = () => {
+    const { id } = localStorage.id;
+    this.setState({ user_id: localStorage.id });
+
+    this.props.getUser(localStorage.id).then(res => {
+      this.setState({ ...res.data, password: "" });
+    });
   };
 
-  onChange = (e) => this.setState({ [e.target.id]: e.target.value });
+  onChange = e => this.setState({ [e.target.id]: e.target.value });
 
-  onChangeType = (e) => {
-    this.setState({ [e.target.id]: e.target.value });
-    this.viewglink(e.target.value);
-  };
-
-  viewglink(e) {
-    if (e === "guardian") {
-      $("#student-guardian-rel-div").removeClass("d-none");
-      $("#studentUsername").attr("required", true);
-    } else {
-      $("#student-guardian-rel-div").addClass("d-none");
-      $("#studentUsername").attr("required", false);
-    }
-  }
-
-  onSubmit = (e) => {
+  onSubmit = e => {
     e.preventDefault();
-    this.props.registerUser(this.state).then(() => {
-      window.location.href = "/users";
+    this.props.updateUser(localStorage.id, this.state).then(() => {
+      window.location.href = "/home";
     });
   };
 
@@ -58,7 +43,7 @@ class Add extends React.Component {
           <div className="col-md-8 offset-2">
             <div className="card">
               <div className="card-header">
-                <strong>Create a new User!</strong>
+                <strong>My Account</strong>
               </div>
               <div className="card-body">
                 <form onSubmit={this.onSubmit}>
@@ -88,7 +73,7 @@ class Add extends React.Component {
                   </div>
                   <div className="form-group">
                     <label htmlFor="Username">Username</label>
-                    <input
+                    <input readOnly
                       required
                       type="text"
                       className="form-control"
@@ -100,34 +85,16 @@ class Add extends React.Component {
                   </div>
                   <div className="form-group">
                     <label htmlFor="UserType">User Type</label>
-                    <select
+                    <input readOnly
                       required
                       type="text"
                       className="form-control"
-                      onChange={this.onChangeType}
+                      onChange={this.onChange}
                       value={this.state.type}
                       placeholder="Enter your UserType"
                       id="type"
                     >
-                      <option value="">Select User Type</option>
-                      <option value="teacher">Teacher</option>
-                      <option value="guardian">Guardian</option>
-                      <option value="student">Student</option>
-                    </select>
-                  </div>
-                  <div
-                    className="form-group d-none"
-                    id="student-guardian-rel-div"
-                  >
-                    <label htmlFor="StudentUsername">Student Username</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      onChange={this.onChange}
-                      value={this.state.studentUsername}
-                      placeholder="Enter your Student Username"
-                      id="studentUsername"
-                    />
+                    </input>
                   </div>
                   <div className="form-group">
                     <label htmlFor="Email">Email address</label>
@@ -147,7 +114,6 @@ class Add extends React.Component {
                   <div className="form-group">
                     <label htmlFor="Password">Password</label>
                     <input
-                      required
                       type="password"
                       className="form-control"
                       onChange={this.onChange}
@@ -156,8 +122,8 @@ class Add extends React.Component {
                       id="password"
                     />
                   </div>
-                  <button type="submit" id="submit" className="btn btn-primary">
-                    Submit
+                  <button type="submit" className="btn btn-primary">
+                    Edit
                   </button>
                 </form>
               </div>
@@ -169,15 +135,18 @@ class Add extends React.Component {
   }
 }
 
-Add.propTypes = {
-  registerUser: PropTypes.func.isRequired,
+Edit.propTypes = {
+  getUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   auth: state.auth,
-  errors: state.errors,
+  errors: state.errors
 });
 
-export default connect(mapStateToProps, { registerUser })(withRouter(Add));
+export default connect(mapStateToProps, { getUser, updateUser })(
+  withRouter(Edit)
+);

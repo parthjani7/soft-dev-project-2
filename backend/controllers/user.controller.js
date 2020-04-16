@@ -91,4 +91,33 @@ exports.isRegistered = function(req, res) {
       }
 });
 }
+
+exports.showStudentCourseList = function(req,res) {
+  User.findOne({'username' : req.params.username})
+    .exec(function(err,data){
+      if(err) return handleError(err);
+      const studentUsername = data.studentusername;
+
+      User.findOne({'username' : studentUsername})
+      .populate('courselist','_id name code classlist assignments')
+      .exec(function (err, data2) {
+        if(err) return handleError(err);
+        console.log(data2.courselist);
+        return res.send(data2.courselist);
+    });
+  });
+}
+
+exports.getWardInformation = function(req,res) {
+  User.findOne({'username' : req.params.username})
+    .exec(function(err,data){
+      if(err) return handleError(err);
+      const studentUsername = data.studentusername;
+
+      User.findOne({'username' : studentUsername})
+      .select("-password")
+      .then(user => res.status(200).json(user))
+      .catch(err => res.status(400).json("Error => " + err));
+    });   
+}
 //ends here

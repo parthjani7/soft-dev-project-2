@@ -24,7 +24,7 @@ exports.store = function(req, res) {
       };
       console.log(data.classlist);
       console.log(payload);
-    
+      
       // return;
       const assignment = new Assignment(payload);
       assignment
@@ -110,14 +110,6 @@ exports.showNonSubmissions = function(req,res) {
 
       });
   });
-
-  // Assignment.findById(req.params.id)
-  // .populate('nonsubmissions','_id firstname lastname email')
-  // .exec(function (err, data){
-  //     if(err) return handleError(err);
-  //     console.log(data.nonsubmissions);
-  //     return res.send(data.nonsubmissions);
-  // });
 }
 
 exports.submitUser = function(req,res) {
@@ -154,4 +146,40 @@ exports.removeSubmission = function(req,res) {
     .catch(err => res.status(400).json("Error => " + err));
   })
   .catch(err => res.status(400).json("Error => " + err));
+};
+
+exports.checkSubmission = function(req,res) {
+  User.findOne({ 'username': req.params.username })
+  .exec(function(err, data1) {
+    if(err) return handleError(err);
+    const userId = data1._id;
+
+    Assignment.findById(req.params.assignmentId)
+    .exec(function(err, data2) {
+      if(err) return handleError(err);
+      const submissions = data2.submissions;
+      var status = "Not submitted"
+
+      Object.keys(submissions).forEach(function(key) {
+        if(JSON.stringify(submissions[key])===JSON.stringify(userId))
+        {
+          console.log("Yes");
+          status = "Submitted"
+        }
+      });
+
+      console.log(status);
+      return res.send(status);
+    });
+
+    // console.log(data._id);
+    // return res.send(data._id);
+  });
+}
+
+
+exports.show = function(req, res) {
+  Assignment.findById(req.params.id)
+    .then(user => res.json(user))
+    .catch(err => res.status(400).json(err));
 };

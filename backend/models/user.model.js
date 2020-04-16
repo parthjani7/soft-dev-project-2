@@ -14,6 +14,9 @@ const userSchema = new Schema( // creating new schema
       minlength: 3,
       required: true
     },
+    studentusername: {
+      type: String
+    },
     email: { type: String, trim: true, unique: true, required: true },
     password: { type: String, minlength: 6, required: true },
     type: {
