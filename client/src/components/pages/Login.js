@@ -11,6 +11,7 @@ class Login extends React.Component {
     this.state = {
       email: "",
       password: "",
+      message: "",
     };
   }
 
@@ -41,7 +42,9 @@ class Login extends React.Component {
 
   checkLogin = (e) => {
     e.preventDefault();
+    this.state.message = "Please wait";
     this.props.loginUser(this.state);
+    this.state.message = "Invalid email or password, try again.";
   };
 
   render() {
@@ -49,6 +52,13 @@ class Login extends React.Component {
       <div className="container py-5">
         <div className="row">
           <div className="col-md-8 offset-2">
+            {this.state.message ? (
+              <div className="alert alert-primary" role="alert">
+                {this.state.message}
+              </div>
+            ) : (
+              ""
+            )}
             <div className="card">
               <div className="card-header">
                 <strong>Login Here!</strong>
