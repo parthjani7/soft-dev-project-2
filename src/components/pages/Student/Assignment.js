@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
   getAssignments,
-  deleteAssignment
+  deleteAssignment,
+  checkSubmission
 } from "../../../actions/assignmentActions";
 
 class Assignment extends Component {
@@ -12,81 +13,105 @@ class Assignment extends Component {
 
     this.state = {
       course_id: null,
-      assignments: []
+      assignmentlist: [],
+      status: []
     };
   }
+
+  checkSubmission(assignmentId, username) {
+    this.props.checkSubmission(assignmentId, username).then(res => {
+      return res.data
+    });
+  }
+
   componentDidMount = () => {
     const { id } = this.props.match.params;
 
     this.setState({ course_id: id });
 
+    var assignments = [];
+
     this.props.getAssignments(this.props.match.params.id).then(res => {
-      this.setState({ assignments: res.data });
+      assignments = res.data;
+      this.setState({assignmentlist: assignments});
     });
-  };
 
-  onClickDelete = id => {
-    this.props.deleteAssignment(id).then(() => {
-      window.location.reload();
-    });
-  };
+    
 
-  render() {
-    return (
-      <div style={{ height: "75vh" }} className="container valign-wrapper">
-        <div className="row">
-          <div className="col s12 center-align">
-            <br />
-            <div className="row">
-              <div className="col-md-6">
-                <h4>
-                  <b>List of Assignments</b>
-                </h4>
+    // Object.keys(assignments).forEach(function (key) {
+    //   const username = localStorage.username;
+    //   const assignmentId = assignments._id;
+    //   var status;
+    //   assignments.status = assignments._id;
+
+    //     this.setState({ assignmentlists: assignments });
+    //   });
+  }
+
+    onClickDelete = id => {
+      this.props.deleteAssignment(id).then(() => {
+        window.location.reload();
+      });
+    };
+
+    render() {
+      return (
+        <div style={{ height: "75vh" }} className="container valign-wrapper">
+          <div className="row">
+            <div className="col s12 center-align">
+              <br />
+              <div className="row">
+                <div className="col-md-6">
+                  <h4>
+                    <b>List of Assignments</b>
+                  </h4>
+                </div>
+                <div className="col-md-6 text-right">
+                </div>
               </div>
-              <div className="col-md-6 text-right">
-              </div>
-            </div>
 
-            <hr />
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Due</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.assignments.map((assignment, key) => (
-                  <tr key={key}>
-                    <td>{key + 1}</td>
-                    <td>
-                      {/* <a href={"/assignments/" + assignment._id}> */}
-                      {assignment.name}
-                      {/* </a> */}
-                    </td>
-                    <td>{assignment.description}</td>
-                    <td>{new Date(assignment.due).toDateString()}</td>
-                    
+              <hr />
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Due</th>
+                    <th scope="col">Status</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {this.state.assignmentlist.map((assignment, key) => (
+                    <tr key={key}>
+                      <td>{key + 1}</td>
+                      <td>
+                        {/* <a href={"/assignments/" + assignment._id}> */}
+                        {assignment.name}
+                        {/* </a> */}
+                      </td>
+                      <td>{assignment.description}</td>
+                      <td>{new Date(assignment.due).toDateString()}</td>
+                      <td>{assignment.status}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
-}
-Assignment.propTypes = {
-  getAssignments: PropTypes.func.isRequired,
-  deleteAssignment: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
-};
-const mapStateToProps = state => ({
-  auth: state.auth
-});
-export default connect(mapStateToProps, { getAssignments, deleteAssignment })(
-  Assignment
-);
+  Assignment.propTypes = {
+    getAssignments: PropTypes.func.isRequired,
+    deleteAssignment: PropTypes.func.isRequired,
+    checkSubmission: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired
+  };
+  const mapStateToProps = state => ({
+    auth: state.auth
+  });
+  export default connect(mapStateToProps, { getAssignments, deleteAssignment, checkSubmission })(
+    Assignment
+  );

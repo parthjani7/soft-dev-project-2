@@ -42,11 +42,13 @@ module.exports = function (app) {
 
   router.get("/classlist/:id", course.showClassList); //view users in a course
   router.get("/courselist/:username", user.showCourseList); //view courses for a user
+  router.get("/studentcourselist/:username",user.showStudentCourseList);
 
   router.get("/isregistered/:courseId/:userId", user.isRegistered); //view courses for a user
 
   router.get("/submit/:assignmentId/:userId", assignment.submitUser);
   router.get("/remove/:assignmentId/:userId", assignment.removeSubmission);
+  router.get("/checkSubmission/:assignmentId/:username",assignment.checkSubmission);
   //Added by Sruthi ---- ends here
 
   app.use("/api/v1", router);

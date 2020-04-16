@@ -20,7 +20,7 @@ const TeacherClasslist = lazy(() => import("../pages/Teacher/Courses/Classlist")
 const AssignmentSubmissions = lazy(() => import("../pages/Admin/Assignments/Submissions"));
 
 const GuardianHome = lazy(() => import("../pages/Guardian/Home"));
-
+const GuardianCourse = lazy(() => import("../pages/Guardian/Courses/Course"));
 
 const AdminHome = lazy(() => import("../pages/Admin/Home"));
 const AdminCourse = lazy(() => import("../pages/Admin/Courses/Course"));
@@ -127,7 +127,7 @@ export default class Navbar extends React.Component {
                 {user_type === "student" && (
                   <Route exact path="/courses" component={TeacherCourse} />
                 )}
-                {user_type === "student" && (
+                {(user_type === "student" || user_type === "guardian")&& (
                   <Route
                     exact
                     path="/courses/:id"
@@ -135,7 +135,7 @@ export default class Navbar extends React.Component {
                   />
                 )}
                 {
-                  user_type === "student" && (
+                  (user_type === "student" || user_type === "guardian")&& (
                     <Route
                       exact
                       path="/courses/:id/classlist"
@@ -143,14 +143,19 @@ export default class Navbar extends React.Component {
                     />
                   )
                 }
-                {(user_type === "student") && (
+                {(user_type === "student" || user_type === "guardian")&& (
                   <Route
                     exact
                     path="/courses/:id/assignments"
                     component={StudentAssignments}
                   />
                 )}
-
+                {user_type === "guardian" && (
+                  <Route exact path="/home" component={GuardianCourse}/>
+                )}
+                {user_type === "guardian" && (
+                  <Route exact path="/courses" component={GuardianCourse}/>
+                )}                
                 {user_type === "teacher" && (
                   <Route exact path="/home" component={TeacherCourse} />
                 )}

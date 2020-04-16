@@ -89,3 +89,10 @@ export const removeSubmission = (assignmentId, userId) => dispatch => {
       .catch(err => reject(err));
   });
 };
+
+export const checkSubmission = (assignmentId, username) => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+    .get(`/checkSubmission/${assignmentId}/${username}`)
+  });
+};

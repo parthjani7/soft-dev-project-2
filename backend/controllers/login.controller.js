@@ -12,10 +12,16 @@ exports.signup = function(req, res) {
     email: req.body.email,
     password: req.body.password,
     type: req.body.type,
-    status: req.body.status
+    status: req.body.status,
+    studentusername: req.body.studentUsername
   };
 
+  console.log(req.body);
+  console.log(payload);
+
   const user = new User(payload);
+
+  console.log("user" + user);
 
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(user.password, salt, (err, hash) => {
