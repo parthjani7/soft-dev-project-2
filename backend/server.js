@@ -26,12 +26,10 @@ if (process.env.NODE_ENV === "development") {
 require("./routes/index.route")(app);
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static("../build")); // serve the static react app
-  app.get(/^\/(?!api).*/, (req, res) => {
-    // don't serve api routes to react app
-    res.sendFile(path.join(__dirname, "../build/index.html"));
+  app.use(express.static("../build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../build"));
   });
-  console.log("Serving React App...");
 }
 
 // DB Connection
