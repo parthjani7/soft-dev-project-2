@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getCourses } from "../../../../actions/courseActions";
+import { getCourses, deleteCourse } from "../../../../actions/courseActions";
 
 class Course extends Component {
   constructor(props) {
@@ -15,6 +15,13 @@ class Course extends Component {
   componentDidMount = () => {
     this.props.getCourses().then((res) => {
       this.setState({ courses: res.data });
+    });
+  };
+
+  deleteCourse = (course_id) => {
+    console.log(course_id);
+    this.props.deleteCourse(course_id).then(() => {
+      window.location.reload();
     });
   };
 
@@ -40,7 +47,7 @@ class Course extends Component {
             {this.state.courses.map((course, key) => (
               <div
                 className="card float-left mr-3 my-3"
-                style={{ width: "21rem", height: "8rem" }}
+                style={{ width: "21rem", height: "10rem" }}
                 key={key}
               >
                 <div className="card-body">
@@ -48,6 +55,14 @@ class Course extends Component {
                     <a href={"/courses/" + course._id}> {course.name}</a>
                   </h5>
                   <p className="card-text">Course Code: {course.code}</p>
+                </div>
+                <div className="card-footer">
+                  <button
+                    onClick={() => this.deleteCourse(course._id)}
+                    className="btn btn-danger ml-1"
+                  >
+                    <i className="fa fa-trash"></i>
+                  </button>
                 </div>
               </div>
             ))}
@@ -59,10 +74,12 @@ class Course extends Component {
 }
 Course.propTypes = {
   getCourses: PropTypes.func.isRequired,
+  deleteCourse: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
   getCourses: state.getCourses,
+  deleteCourse: state.getCourses,
 });
-export default connect(mapStateToProps, { getCourses })(Course);
+export default connect(mapStateToProps, { getCourses, deleteCourse })(Course);
