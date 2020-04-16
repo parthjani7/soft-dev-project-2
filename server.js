@@ -16,6 +16,9 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json()); // allows us to parse json
 
+// Loading the routing files
+require("./routes/index.route")(app);
+
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev")); // Used for logging
 } else if (process.env.NODE_ENV === "production") {
@@ -28,9 +31,6 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "client", "build", "index.html"));
   });
 }
-
-// Loading the routing files
-require("./routes/index.route")(app);
 
 // DB Connection
 const uri = process.env.MONGO_URI; // Connection URI(String)
