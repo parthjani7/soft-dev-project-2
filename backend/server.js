@@ -22,9 +22,6 @@ if (process.env.NODE_ENV === "development") {
   app.use(compression()); // used for compression, when deployed
 }
 
-// Loading the routing files
-require("./routes/index.route")(app);
-
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("../build"));
   // app.get("*", (req, res) => {
@@ -35,6 +32,9 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../build"));
   });
 }
+
+// Loading the routing files
+require("./routes/index.route")(app);
 
 // DB Connection
 const uri = process.env.MONGO_URI; // Connection URI(String)
