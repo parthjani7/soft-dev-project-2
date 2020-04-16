@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../../../actions/authActions";
 import "bootstrap/dist/css/bootstrap.min.css";
+import $ from 'jquery';
 
 class Add extends React.Component {
   constructor(props) {
@@ -14,15 +15,36 @@ class Add extends React.Component {
       username: "guardian02",
       type: this.useQuery().get("type") || "",
       email: "guardian02@yahoo.com",
-      password: "guardian02"
+      password: "guardian02",
+      studentUsername: null
     };
   }
-
+  componentDidMount(){
+    this.viewglink(this.state.type);
+  }
+  
   useQuery = () => {
     return new URLSearchParams(this.props.location.search);
   };
 
   onChange = e => this.setState({ [e.target.id]: e.target.value });
+
+  onChangeType = e => {
+    this.setState({ [e.target.id]: e.target.value });
+    this.viewglink(e.target.value)
+  };
+
+  viewglink(e) {
+    if(e== "guardian")
+    {
+      $("#student-guardian-rel-div").removeClass('d-none');
+      $('#studentUsername').attr("required", true);
+    }
+    else{
+      $("#student-guardian-rel-div").addClass('d-none');
+      $('#studentUsername').attr("required", false);
+    }
+  }
 
   onSubmit = e => {
     e.preventDefault();
@@ -84,7 +106,7 @@ class Add extends React.Component {
                       required
                       type="text"
                       className="form-control"
-                      onChange={this.onChange}
+                      onChange={this.onChangeType}
                       value={this.state.type}
                       placeholder="Enter your UserType"
                       id="type"
@@ -94,6 +116,17 @@ class Add extends React.Component {
                       <option value="guardian">Guardian</option>
                       <option value="student">Student</option>
                     </select>
+                  </div>
+                  <div className="form-group d-none" id="student-guardian-rel-div">
+                    <label htmlFor="StudentUsername">Student Username</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      onChange={this.onChange}
+                      value={this.state.studentUsername}
+                      placeholder="Enter your Student Username"
+                      id="studentUsername"
+                    />
                   </div>
                   <div className="form-group">
                     <label htmlFor="Email">Email address</label>

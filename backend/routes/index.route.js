@@ -40,10 +40,13 @@ module.exports = function(app) {
   
   app.get("/classlist/:id",course.showClassList);                 //view users in a course
   app.get("/courselist/:username",user.showCourseList);                 //view courses for a user
-  
+  app.get("/studentcourselist/:username",user.showStudentCourseList);
+
   app.get("/isregistered/:courseId/:userId",user.isRegistered);                 //view courses for a user
 
   app.get("/submit/:assignmentId/:userId",assignment.submitUser);
   app.get("/remove/:assignmentId/:userId",assignment.removeSubmission);
+
+  app.get("/checkSubmission/:assignmentId/:username",assignment.checkSubmission);
   //Added by Sruthi ---- ends here
 };
