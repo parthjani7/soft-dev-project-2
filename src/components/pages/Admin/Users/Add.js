@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../../../actions/authActions";
 import "bootstrap/dist/css/bootstrap.min.css";
-import $ from 'jquery';
+import $ from "jquery";
 
 class Add extends React.Component {
   constructor(props) {
@@ -16,10 +16,10 @@ class Add extends React.Component {
       type: this.useQuery().get("type") || "",
       email: "",
       password: "",
-      studentUsername: null
+      studentUsername: null,
     };
   }
-  componentDidMount(){
+  componentDidMount() {
     this.viewglink(this.state.type);
   }
 
@@ -29,24 +29,22 @@ class Add extends React.Component {
 
   onChange = (e) => this.setState({ [e.target.id]: e.target.value });
 
-  onChangeType = e => {
+  onChangeType = (e) => {
     this.setState({ [e.target.id]: e.target.value });
-    this.viewglink(e.target.value)
+    this.viewglink(e.target.value);
   };
 
   viewglink(e) {
-    if(e== "guardian")
-    {
-      $("#student-guardian-rel-div").removeClass('d-none');
-      $('#studentUsername').attr("required", true);
-    }
-    else{
-      $("#student-guardian-rel-div").addClass('d-none');
-      $('#studentUsername').attr("required", false);
+    if (e === "guardian") {
+      $("#student-guardian-rel-div").removeClass("d-none");
+      $("#studentUsername").attr("required", true);
+    } else {
+      $("#student-guardian-rel-div").addClass("d-none");
+      $("#studentUsername").attr("required", false);
     }
   }
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     this.props.registerUser(this.state).then(() => {
       window.location.href = "/users";
@@ -117,7 +115,10 @@ class Add extends React.Component {
                       <option value="student">Student</option>
                     </select>
                   </div>
-                  <div className="form-group d-none" id="student-guardian-rel-div">
+                  <div
+                    className="form-group d-none"
+                    id="student-guardian-rel-div"
+                  >
                     <label htmlFor="StudentUsername">Student Username</label>
                     <input
                       type="text"
