@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../../actions/authActions";
 
 class Home extends Component {
-  onLogoutClick = e => {
+  onLogoutClick = (e) => {
     e.preventDefault();
     this.props.logoutUser();
   };
-  componentDidMount = e => {
+  componentDidMount = (e) => {
     console.log(this.props.auth);
     if (!this.props.auth.isAuthenticated) {
       this.props.logoutUser();
@@ -33,7 +33,7 @@ class Home extends Component {
                 width: "150px",
                 borderRadius: "3px",
                 letterSpacing: "1.5px",
-                marginTop: "1rem"
+                marginTop: "1rem",
               }}
               onClick={this.onLogoutClick}
               className="btn btn-large waves-effect waves-light hoverable blue accent-3"
@@ -48,9 +48,9 @@ class Home extends Component {
 }
 Home.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 export default connect(mapStateToProps, { logoutUser })(Home);

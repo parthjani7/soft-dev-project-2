@@ -1,52 +1,50 @@
-import React, { Component } from "react";
-import { Link, withRouter, useLocation } from "react-router-dom";
+import React from "react";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { registerUser } from "../../../../actions/authActions";
 import "bootstrap/dist/css/bootstrap.min.css";
-import $ from 'jquery';
+import $ from "jquery";
 
 class Add extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: "guardian02",
-      lastname: "guardian02",
-      username: "guardian02",
+      firstname: "",
+      lastname: "",
+      username: "",
       type: this.useQuery().get("type") || "",
-      email: "guardian02@yahoo.com",
-      password: "guardian02",
-      studentUsername: null
+      email: "",
+      password: "",
+      studentUsername: null,
     };
   }
-  componentDidMount(){
+  componentDidMount() {
     this.viewglink(this.state.type);
   }
-  
+
   useQuery = () => {
     return new URLSearchParams(this.props.location.search);
   };
 
-  onChange = e => this.setState({ [e.target.id]: e.target.value });
+  onChange = (e) => this.setState({ [e.target.id]: e.target.value });
 
-  onChangeType = e => {
+  onChangeType = (e) => {
     this.setState({ [e.target.id]: e.target.value });
-    this.viewglink(e.target.value)
+    this.viewglink(e.target.value);
   };
 
   viewglink(e) {
-    if(e== "guardian")
-    {
-      $("#student-guardian-rel-div").removeClass('d-none');
-      $('#studentUsername').attr("required", true);
-    }
-    else{
-      $("#student-guardian-rel-div").addClass('d-none');
-      $('#studentUsername').attr("required", false);
+    if (e === "guardian") {
+      $("#student-guardian-rel-div").removeClass("d-none");
+      $("#studentUsername").attr("required", true);
+    } else {
+      $("#student-guardian-rel-div").addClass("d-none");
+      $("#studentUsername").attr("required", false);
     }
   }
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     this.props.registerUser(this.state).then(() => {
       window.location.href = "/users";
@@ -117,7 +115,10 @@ class Add extends React.Component {
                       <option value="student">Student</option>
                     </select>
                   </div>
-                  <div className="form-group d-none" id="student-guardian-rel-div">
+                  <div
+                    className="form-group d-none"
+                    id="student-guardian-rel-div"
+                  >
                     <label htmlFor="StudentUsername">Student Username</label>
                     <input
                       type="text"
@@ -155,7 +156,7 @@ class Add extends React.Component {
                       id="password"
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" id="submit" className="btn btn-primary">
                     Submit
                   </button>
                 </form>
@@ -171,12 +172,12 @@ class Add extends React.Component {
 Add.propTypes = {
   registerUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
 export default connect(mapStateToProps, { registerUser })(withRouter(Add));

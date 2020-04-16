@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Link, withRouter, useLocation } from "react-router-dom";
+import React from "react";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getUser, updateUser } from "../../../../actions/userActions";
@@ -14,7 +14,7 @@ class Edit extends React.Component {
       username: "",
       type: "",
       email: "",
-      password: ""
+      password: "",
     };
   }
 
@@ -22,14 +22,14 @@ class Edit extends React.Component {
     const { id } = this.props.match.params;
     this.setState({ course_id: id });
 
-    this.props.getUser(id).then(res => {
+    this.props.getUser(id).then((res) => {
       this.setState({ ...res.data, password: "" });
     });
   };
 
-  onChange = e => this.setState({ [e.target.id]: e.target.value });
+  onChange = (e) => this.setState({ [e.target.id]: e.target.value });
 
-  onSubmit = e => {
+  onSubmit = (e) => {
     e.preventDefault();
     this.props.updateUser(this.props.match.params.id, this.state).then(() => {
       window.location.href = "/users";
@@ -143,12 +143,12 @@ Edit.propTypes = {
   getUser: PropTypes.func.isRequired,
   updateUser: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
-  errors: state.errors
+  errors: state.errors,
 });
 
 export default connect(mapStateToProps, { getUser, updateUser })(

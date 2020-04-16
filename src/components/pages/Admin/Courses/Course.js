@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getCourses } from "../../../../actions/courseActions";
-import { getUsers } from "../../../../actions/userActions";
 
 class Course extends Component {
   constructor(props) {
@@ -10,21 +9,16 @@ class Course extends Component {
 
     this.state = {
       courses: [],
-      users: []
+      users: [],
     };
   }
   componentDidMount = () => {
-    this.props.getCourses().then(res => {
+    this.props.getCourses().then((res) => {
       this.setState({ courses: res.data });
-    });
-    this.props.getUsers().then(res => {
-      this.setState({ users: res.data });
     });
   };
 
   render() {
-    const { user } = this.props.auth;
-
     return (
       <div style={{ height: "75vh" }} className="container valign-wrapper">
         <div className="row">
@@ -65,10 +59,10 @@ class Course extends Component {
 }
 Course.propTypes = {
   getCourses: PropTypes.func.isRequired,
-  getUsers: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  getCourses: state.getCourses,
 });
-export default connect(mapStateToProps, { getCourses, getUsers })(Course);
+export default connect(mapStateToProps, { getCourses })(Course);

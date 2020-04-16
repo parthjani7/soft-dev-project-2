@@ -2,7 +2,7 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch
+  Switch,
 } from "react-router-dom";
 import React, { Suspense, lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,19 +19,27 @@ const StudentAssignmentDetails = lazy(() => import("../pages/Student/Detail"));
 const TeacherHome = lazy(() => import("../pages/Teacher/Home"));
 const TeacherCourse = lazy(() => import("../pages/Teacher/Courses/Course"));
 const TeacherCourseShow = lazy(() => import("../pages/Teacher/Courses/Show"));
-const TeacherClasslist = lazy(() => import("../pages/Teacher/Courses/Classlist"));
-const AssignmentSubmissions = lazy(() => import("../pages/Admin/Assignments/Submissions"));
+const TeacherClasslist = lazy(() =>
+  import("../pages/Teacher/Courses/Classlist")
+);
+const AssignmentSubmissions = lazy(() =>
+  import("../pages/Admin/Assignments/Submissions")
+);
 
 const GuardianHome = lazy(() => import("../pages/Guardian/Home"));
 const GuardianCourse = lazy(() => import("../pages/Guardian/Courses/Course"));
-const GuardianAssignmentDetails = lazy(() => import("../pages/Guardian/Assignments/Detail"));
+const GuardianAssignmentDetails = lazy(() =>
+  import("../pages/Guardian/Assignments/Detail")
+);
 
 const AdminHome = lazy(() => import("../pages/Admin/Home"));
 const AdminCourse = lazy(() => import("../pages/Admin/Courses/Course"));
 const AdminAddCourse = lazy(() => import("../pages/Admin/Courses/Add"));
 const AdminCourseShow = lazy(() => import("../pages/Admin/Courses/Show"));
 const AdminClasslist = lazy(() => import("../pages/Admin/Courses/Classlist"));
-const AdminCourseRegisterUser = lazy(() => import("../pages/Admin/Courses/RegisterUser"));
+const AdminCourseRegisterUser = lazy(() =>
+  import("../pages/Admin/Courses/RegisterUser")
+);
 const AdminUsers = lazy(() => import("../pages/Admin/Users/User"));
 const AdminAddUsers = lazy(() => import("../pages/Admin/Users/Add"));
 const AdminEditUser = lazy(() => import("../pages/Admin/Users/Edit"));
@@ -94,7 +102,6 @@ export default class Navbar extends React.Component {
                 ""
               )}
 
-             
               {token && (
                 <li className="nav-item active">
                   <a className="nav-link" href="/courses">
@@ -105,7 +112,7 @@ export default class Navbar extends React.Component {
 
               {user_type === "admin" ? (
                 <li className="nav-item active">
-                  <a className="nav-link" href="/users">
+                  <a className="nav-link" id="nav_users" href="/users">
                     Users
                   </a>
                 </li>
@@ -115,10 +122,10 @@ export default class Navbar extends React.Component {
 
               {token && (
                 <li className="nav-item active">
-                <a className="nav-link" href="/users/edit">
-                  My Account
-                </a>
-              </li>
+                  <a className="nav-link" href="/users/edit">
+                    My Account
+                  </a>
+                </li>
               )}
 
               {token && (
@@ -141,23 +148,21 @@ export default class Navbar extends React.Component {
                 {user_type === "student" && (
                   <Route exact path="/courses" component={TeacherCourse} />
                 )}
-                {(user_type === "student" || user_type === "guardian")&& (
+                {(user_type === "student" || user_type === "guardian") && (
                   <Route
                     exact
                     path="/courses/:id"
                     component={StudentCourseShow}
                   />
                 )}
-                {
-                  (user_type === "student" || user_type === "guardian")&& (
-                    <Route
-                      exact
-                      path="/courses/:id/classlist"
-                      component={TeacherClasslist}
-                    />
-                  )
-                }
-                {(user_type === "student" || user_type === "guardian")&& (
+                {(user_type === "student" || user_type === "guardian") && (
+                  <Route
+                    exact
+                    path="/courses/:id/classlist"
+                    component={TeacherClasslist}
+                  />
+                )}
+                {(user_type === "student" || user_type === "guardian") && (
                   <Route
                     exact
                     path="/courses/:id/assignments"
@@ -165,17 +170,25 @@ export default class Navbar extends React.Component {
                   />
                 )}
                 {user_type === "guardian" && (
-                  <Route exact path="/home" component={GuardianCourse}/>
+                  <Route exact path="/home" component={GuardianCourse} />
                 )}
                 {user_type === "guardian" && (
-                  <Route exact path="/courses" component={GuardianCourse}/>
-                )}                        
-                {(user_type === "guardian")&& (
-                  <Route exact path="/assignments/:id/details" component={GuardianAssignmentDetails}/>
-                )}                        
-                {(user_type === "student")&& (
-                  <Route exact path="/assignments/:id/details" component={StudentAssignmentDetails}/>
-                )}     
+                  <Route exact path="/courses" component={GuardianCourse} />
+                )}
+                {user_type === "guardian" && (
+                  <Route
+                    exact
+                    path="/assignments/:id/details"
+                    component={GuardianAssignmentDetails}
+                  />
+                )}
+                {user_type === "student" && (
+                  <Route
+                    exact
+                    path="/assignments/:id/details"
+                    component={StudentAssignmentDetails}
+                  />
+                )}
                 {user_type === "teacher" && (
                   <Route exact path="/home" component={TeacherCourse} />
                 )}
@@ -189,15 +202,13 @@ export default class Navbar extends React.Component {
                     component={TeacherCourseShow}
                   />
                 )}
-                {
-                  user_type === "teacher" && (
-                    <Route
-                      exact
-                      path="/courses/:id/classlist"
-                      component={TeacherClasslist}
-                    />
-                  )
-                }
+                {user_type === "teacher" && (
+                  <Route
+                    exact
+                    path="/courses/:id/classlist"
+                    component={TeacherClasslist}
+                  />
+                )}
 
                 {user_type === "guardian" && (
                   <Route exact path="/home" component={GuardianHome} />
@@ -212,10 +223,18 @@ export default class Navbar extends React.Component {
                   <Route exact path="/courses/add" component={AdminAddCourse} />
                 )}
                 {user_type === "admin" && (
-                  <Route exact path="/assignments" component={AdminAllAssignments}/>
+                  <Route
+                    exact
+                    path="/assignments"
+                    component={AdminAllAssignments}
+                  />
                 )}
-                {(user_type === "admin" || user_type === "teacher")&& (
-                  <Route exact path="/assignments/:id/submissions" component={AssignmentSubmissions}/>
+                {(user_type === "admin" || user_type === "teacher") && (
+                  <Route
+                    exact
+                    path="/assignments/:id/submissions"
+                    component={AssignmentSubmissions}
+                  />
                 )}
                 {user_type === "admin" && (
                   <Route
@@ -224,7 +243,8 @@ export default class Navbar extends React.Component {
                     component={AdminCourseShow}
                   />
                 )}
-                { //Added by Sruthi
+                {
+                  //Added by Sruthi
                   user_type === "admin" && (
                     <Route
                       exact
@@ -233,9 +253,13 @@ export default class Navbar extends React.Component {
                     />
                   )
                 }
-                
+
                 {user_type === "admin" && (
-                  <Route exact path="/courses/:courseId/register" component={AdminCourseRegisterUser} />
+                  <Route
+                    exact
+                    path="/courses/:courseId/register"
+                    component={AdminCourseRegisterUser}
+                  />
                 )}
                 {user_type === "admin" && (
                   <Route exact path="/users" component={AdminUsers} />
@@ -279,7 +303,6 @@ export default class Navbar extends React.Component {
                 <Route exact path="/logout" component={Logout} />
                 <Route exact path="/signup" component={Signup} />
                 <Route exact path="/users/edit" component={EditUser} />
-                
                 <Switch>
                   {/* <PrivateRoute exact path="/" component={Home} /> */}
                 </Switch>

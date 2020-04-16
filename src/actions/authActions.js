@@ -1,20 +1,20 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
-import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types"; // Register User
+import { GET_ERRORS, SET_CURRENT_USER } from "./types"; // Register User
 
-export const registerUser = userData => dispatch => {
+export const registerUser = (userData) => (dispatch) => {
   return new Promise((resolve, reject) => {
     axios
       .post("/register", userData)
-      .then(res => resolve(res))
-      .catch(err => reject(err));
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
   });
 };
 
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData) => (dispatch) => {
   axios
     .post("/login", userData)
-    .then(res => {
+    .then((res) => {
       // Save to localStorage// Set token to localStorage
       const { token, username, id, type } = res.data;
       localStorage.setItem("jwtToken", token);
@@ -26,24 +26,24 @@ export const loginUser = userData => dispatch => {
       // Set current user
       dispatch(setCurrentUser({ username, token, type }));
     })
-    .catch(err =>
+    .catch((err) =>
       dispatch({
         type: GET_ERRORS,
-        payload: err.response.data
+        payload: err.response.data,
       })
     );
 };
 
 // Set logged in user
-export const setCurrentUser = payload => {
+export const setCurrentUser = (payload) => {
   return {
     type: SET_CURRENT_USER,
-    payload: payload
+    payload: payload,
   };
 };
 
 // Log user out
-export const logoutUser = () => dispatch => {
+export const logoutUser = () => (dispatch) => {
   console.log("logging out");
   // Remove token from local storage
   localStorage.removeItem("jwtToken");

@@ -1,8 +1,8 @@
-import React, { Component, Suspense, lazy } from "react";
+import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/partials/Navbar";
 import setAuthToken from "./utils/setAuthToken";
-import { setCurrentUser, logoutUser } from "./actions/authActions";
+import { setCurrentUser } from "./actions/authActions";
 import store from "./store";
 // import "./App.css";
 
@@ -19,7 +19,7 @@ if (localStorage.jwtToken) {
   // Set user and isAuthenticated
   store.dispatch(setCurrentUser({ username, token, type }));
   // Check for expired token
-  const currentTime = Date.now() / 1000; // to get in milliseconds
+  // const currentTime = Date.now() / 1000; // to get in milliseconds
   // if (decoded.exp < currentTime) {
   //   // Logout user
   //   store.dispatch(logoutUser()); // Redirect to login
