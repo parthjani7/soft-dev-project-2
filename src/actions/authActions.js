@@ -12,26 +12,30 @@ export const registerUser = (userData) => (dispatch) => {
 };
 
 export const loginUser = (userData) => (dispatch) => {
-  axios
-    .post("/login", userData)
-    .then((res) => {
-      // Save to localStorage// Set token to localStorage
-      const { token, username, id, type } = res.data;
-      localStorage.setItem("jwtToken", token);
-      localStorage.setItem("username", username);
-      localStorage.setItem("id",id)
-      localStorage.setItem("type", type);
-      // Set token to Auth header
-      setAuthToken(token);
-      // Set current user
-      dispatch(setCurrentUser({ username, token, type }));
-    })
-    .catch((err) =>
-      dispatch({
-        type: GET_ERRORS,
-        payload: err.response.data,
+  return new Promise((resolve, reject) => {
+    axios
+      .post("/login", userData)
+      .then((res) => {
+        // Save to localStorage// Set token to localStorage
+        const { token, username, id, type } = res.data;
+        localStorage.setItem("jwtToken", token);
+        localStorage.setItem("username", username);
+        localStorage.setItem("id", id);
+        localStorage.setItem("type", type);
+        // Set token to Auth header
+        setAuthToken(token);
+        // Set current user
+        dispatch(setCurrentUser({ username, token, type }));
+        resolve(res);
       })
-    );
+      .catch((err) => {
+        // dispatch({
+        //   type: GET_ERRORS,
+        //   payload: err.response.data,
+        // })
+        reject(err);
+      });
+  });
 };
 
 // Set logged in user

@@ -1,7 +1,7 @@
 describe("Student Creation", () => {
   it("Login", () => {
-    const email = "admin@yahoo.com";
-    const password = "admin123";
+    const email = "parthjani7@yahoo.com";
+    const password = "parth";
     cy.visit("/login");
     cy.get("#email").type(email);
     cy.get("#password").type(password);
